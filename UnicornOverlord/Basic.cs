@@ -20,6 +20,12 @@ namespace UnicornOverlord
 			set => SaveData.Instance().WriteNumber(0x24, 4, value);
 		}
 
+		public uint Honor
+		{
+			get => SaveData.Instance().ReadNumber(0x134, 2);
+			set => SaveData.Instance().WriteNumber(0x134, 2, value);
+		}
+
 		public bool ZENOIRA
 		{
 			get => SaveData.Instance().ReadNumber(0x4DA39E, 2) == 0x4040;
