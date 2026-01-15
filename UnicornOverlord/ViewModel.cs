@@ -31,6 +31,7 @@ namespace UnicornOverlord
 		public ICommand InsertCharacterCommand { get; set; }
 		public ICommand ChangeItemCountMaxCommand { get; set; }
 		public ICommand ChangeCharacterBondMaxCommand { get; set; }
+		public ICommand ChangeCharacterBondMaxAllCommand { get; set; }
 
 		public Basic Basic { get; set; } = new Basic();
 		public ObservableCollection<Character> Characters { get; set; } = new ObservableCollection<Character>();
@@ -53,6 +54,7 @@ namespace UnicornOverlord
 			InsertCharacterCommand = new ActionCommand(InsertCharacter);
 			ChangeItemCountMaxCommand = new ActionCommand(ChangeItemCountMax);
 			ChangeCharacterBondMaxCommand = new ActionCommand(ChangeCharacterBondMax);
+			ChangeCharacterBondMaxAllCommand = new ActionCommand(ChangeCharacterBondMaxAll);
 		}
 
 		private void Initialize()
@@ -326,6 +328,20 @@ namespace UnicornOverlord
 			foreach (var bond in ch.Bonds)
 			{
 				bond.Value = 900;
+			}
+		}
+
+		void ChangeCharacterBondMaxAll(object? parameter)
+		{
+			foreach (var ch in Characters)
+			{
+				if (ch == null) continue;
+				if (ch.Bonds == null) continue;
+
+				foreach (var bond in ch.Bonds)
+				{
+					bond.Value = 900;
+				}
 			}
 		}
 

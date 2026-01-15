@@ -150,9 +150,17 @@
 					<TabControl Grid.Column="2">
 						<TabItem Header="Bond">
 							<DockPanel>
-								<Button DockPanel.Dock="Top" Content="Count Max"
+								<Grid DockPanel.Dock="Top">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition/>
+										<ColumnDefinition/>
+									</Grid.ColumnDefinitions>
+									<Button Content="Max Selected Bond"
 										Command="{Binding ChangeCharacterBondMaxCommand}"
 										CommandParameter="{Binding ElementName=ListBoxCharacter, Path=SelectedItem}"/>
+									<Button Grid.Column="1" Content="Max All Bonds"
+											Command="{Binding ChangeCharacterBondMaxAllCommand}"/>
+								</Grid>
 								<ListBox ItemsSource="{Binding ElementName=ListBoxCharacter, Path=SelectedItem.Bonds}">
 									<ListBox.ItemTemplate>
 										<DataTemplate>
