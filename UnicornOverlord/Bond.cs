@@ -30,7 +30,7 @@ namespace UnicornOverlord
 			get => SaveData.Instance().ReadNumber(mAddress + 4, 2);
 			set
 			{
-				Util.WriteNumber(mAddress + 4, 2, value, 0, 1000);
+				Util.WriteNumber(mAddress + 4, 2, value, 0, 900);
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
 			}
 		}

@@ -325,7 +325,7 @@ namespace UnicornOverlord
 
 			foreach (var bond in ch.Bonds)
 			{
-				bond.Value = 1000;
+				bond.Value = 900;
 			}
 		}
 
