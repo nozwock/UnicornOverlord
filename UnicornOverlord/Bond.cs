@@ -15,6 +15,8 @@ namespace UnicornOverlord
 		private readonly uint mAddress;
 		public Bond(uint address)
 		{
+			// ID P, Bond Value Q, Read Rapport ?
+			// PP PP PP PP QQ QQ ?? ?? ...
 			mAddress = address;
 		}
 
@@ -25,10 +27,10 @@ namespace UnicornOverlord
 
 		public uint Value
 		{
-			get => SaveData.Instance().ReadNumber(mAddress + 4, 4);
+			get => SaveData.Instance().ReadNumber(mAddress + 4, 2);
 			set
 			{
-				Util.WriteNumber(mAddress + 4, 4, value, 0, 1000);
+				Util.WriteNumber(mAddress + 4, 2, value, 0, 1000);
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
 			}
 		}
