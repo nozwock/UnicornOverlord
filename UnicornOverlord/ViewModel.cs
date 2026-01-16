@@ -53,6 +53,19 @@ namespace UnicornOverlord
 			}
 		}
 
+		public ICollectionView EquipmentsView { get; }
+		private string _equipmentFilterText = "";
+		public string EquipmentFilterText
+		{
+			get => _equipmentFilterText;
+			set
+			{
+				_equipmentFilterText = value;
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(EquipmentFilterText)));
+				EquipmentsView.Refresh();
+			}
+		}
+
 		public ViewModel()
 		{
 			OpenFileCommand = new ActionCommand(OpenFile);
@@ -71,17 +84,24 @@ namespace UnicornOverlord
 			ChangeCharacterBondMaxAllCommand = new ActionCommand(ChangeCharacterBondMaxAll);
 
 			ItemsView = CollectionViewSource.GetDefaultView(Items);
-			ItemsView.Filter = obj =>
-            {
-				if (obj is not Item item)
-					return false;
-				if (string.IsNullOrWhiteSpace(ItemFilterText))
-					return true;
+			ItemsView.Filter = ItemFilter(() => ItemFilterText);
+			EquipmentsView = CollectionViewSource.GetDefaultView(Equipments);
+			EquipmentsView.Filter = ItemFilter(() => EquipmentFilterText);
 
-				return item.Name.Contains(
-					ItemFilterText,
-					StringComparison.OrdinalIgnoreCase);
-			};
+			Predicate<object> ItemFilter(Func<string> value)
+			{
+				return obj =>
+				{
+					if (obj is not Item item)
+						return false;
+					if (string.IsNullOrWhiteSpace(value()))
+						return true;
+
+					return item.Name.Contains(
+						value(),
+						StringComparison.OrdinalIgnoreCase);
+				};
+			}
 		}
 
 		private void Initialize()
