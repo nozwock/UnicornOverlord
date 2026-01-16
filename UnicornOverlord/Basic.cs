@@ -20,9 +20,9 @@ namespace UnicornOverlord
 			set => SaveData.Instance().WriteNumber(0x24, 4, value);
 		}
 
-		public uint Honor
+		public ushort Honor
 		{
-			get => SaveData.Instance().ReadNumber(0x134, 2);
+			get => (ushort)SaveData.Instance().ReadNumber(0x134, 2);
 			set => SaveData.Instance().WriteNumber(0x134, 2, value);
 		}
 
