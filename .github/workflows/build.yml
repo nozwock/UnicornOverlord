@@ -34,7 +34,7 @@ jobs:
           $shortSha = $env:GITHUB_SHA.Substring(0,7)
           echo "SHORT_SHA=$shortSha" >> $env:GITHUB_ENV
 
-          $zipName = "UnicornOverlord-$shortSha-win-x64.zip"
+          $zipName = "UnicornOverlord-win-x64.zip"
           Compress-Archive -Path build/* -DestinationPath $zipName
           echo "BUILD=$zipName" >> $env:GITHUB_ENV
 
