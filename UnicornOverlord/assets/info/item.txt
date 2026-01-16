@@ -62,8 +62,8 @@
 61	Dew of Parrrying	堅守の雫	坚守之露
 62	Dew of Agility	敏捷の雫	敏捷之露
 63	Dew of Illusion	幻の雫	幻之露
-64		隕鉄石	陨铁石
-65		フェブライト	铁矿石
+64	Star Iron	隕鉄石	陨铁石
+65	Fevrite	フェブライト	铁矿石
 66	Idealist's Handmirror	イデアの手鏡	理想手镜
 67	Goat Biscuit	ゴートクッキー	山羊曲奇
 68	Free Meal Ticket	無料食事券	免费餐券
