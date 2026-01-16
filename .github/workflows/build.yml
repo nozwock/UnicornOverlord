@@ -1,0 +1,61 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - ".github/**"
+      - ".gitignore"
+      - "*.md"
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.x'
+
+      - run: dotnet restore
+      - name: Build
+        run: dotnet publish .\UnicornOverlord\UnicornOverlord.csproj --no-self-contained -o ./build
+
+      - name: Make Archive
+        run: |
+          $shortSha = $env:GITHUB_SHA.Substring(0,7)
+          echo "SHORT_SHA=$shortSha" >> $env:GITHUB_ENV
+
+          $zipName = "UnicornOverlord-$shortSha-win-x64.zip"
+          Compress-Archive -Path build/* -DestinationPath $zipName
+          echo "BUILD=$zipName" >> $env:GITHUB_ENV
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+            name: UnicornOverlord-${{ env.SHORT_SHA }}-win-x64
+            path: ./build/**/*
+
+      - name: Delete git-latest tag
+        shell: bash
+        run: gh release delete git-latest -y --cleanup-tag
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Make Pre-Release
+        uses: softprops/action-gh-release@v2
+        with:
+          prerelease: true
+          name: git-lastest-${{ env.SHORT_SHA }}
+          tag_name: git-latest
+          target_commitish: ${{ github.sha }}
+          files: ${{ env.BUILD }}
