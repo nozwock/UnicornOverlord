@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,10 +29,11 @@ namespace UnicornOverlord
 
 		private void Initialize()
 		{
-			AppendList("info\\item.txt", Item);
-			AppendList("info\\kind.txt", Kind);
-			AppendList("info\\class.txt", Class);
-			AppendList("info\\name.txt", Name);
+			var infoDir = Path.Combine(AppContext.BaseDirectory, "info");
+			AppendList(Path.Combine(infoDir, "item.txt"), Item);
+			AppendList(Path.Combine(infoDir, "kind.txt"), Kind);
+			AppendList(Path.Combine(infoDir, "class.txt"), Class);
+			AppendList(Path.Combine(infoDir, "name.txt"), Name);
 		}
 
 		public NameValueInfo? Search<Type>(List<Type> list, uint id)
