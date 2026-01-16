@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace UnicornOverlord
@@ -39,6 +40,19 @@ namespace UnicornOverlord
 		public ObservableCollection<Item> Equipments { get; set; } = new ObservableCollection<Item>();
 		public ObservableCollection<Unit> Units { get; set; } = new ObservableCollection<Unit>();
 
+		public ICollectionView ItemsView { get; }
+		private string _itemFilterText = "";
+		public string ItemFilterText
+		{
+			get => _itemFilterText;
+			set
+			{
+				_itemFilterText = value;
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ItemFilterText)));
+				ItemsView.Refresh();
+			}
+		}
+
 		public ViewModel()
 		{
 			OpenFileCommand = new ActionCommand(OpenFile);
@@ -55,6 +69,19 @@ namespace UnicornOverlord
 			ChangeItemCountMaxCommand = new ActionCommand(ChangeItemCountMax);
 			ChangeCharacterBondMaxCommand = new ActionCommand(ChangeCharacterBondMax);
 			ChangeCharacterBondMaxAllCommand = new ActionCommand(ChangeCharacterBondMaxAll);
+
+			ItemsView = CollectionViewSource.GetDefaultView(Items);
+			ItemsView.Filter = obj =>
+            {
+				if (obj is not Item item)
+					return false;
+				if (string.IsNullOrWhiteSpace(ItemFilterText))
+					return true;
+
+				return item.Name.Contains(
+					ItemFilterText,
+					StringComparison.OrdinalIgnoreCase);
+			};
 		}
 
 		private void Initialize()

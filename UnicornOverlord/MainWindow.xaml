@@ -180,9 +180,25 @@
 			</TabItem>
 			<TabItem Header="Item">
 				<DockPanel>
-					<Button DockPanel.Dock="Bottom" Content="Append" Command="{Binding AppendItemCommand}"/>
-					<Button DockPanel.Dock="Top" Content="Count Max" Command="{Binding ChangeItemCountMaxCommand}"/>
-					<ListBox ItemsSource="{Binding Items}">
+					<Grid DockPanel.Dock="Top">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto"/>
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+						<Label
+							Grid.Column="0"
+							Content="Filter"
+							VerticalAlignment="Center"/>
+						<TextBox
+							Grid.Column="1"
+							Text="{Binding ItemFilterText, UpdateSourceTrigger=PropertyChanged}"
+							VerticalContentAlignment="Center"/>
+					</Grid>
+					<UniformGrid DockPanel.Dock="Bottom" Rows="1" Columns="2">
+						<Button Content="Append" Command="{Binding AppendItemCommand}"/>
+						<Button Content="Count Max" Command="{Binding ChangeItemCountMaxCommand}"/>
+					</UniformGrid>
+					<ListBox ItemsSource="{Binding ItemsView}">
 						<ListBox.ItemTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -191,7 +207,7 @@
 									<Button Content=" ... "
 									Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.ChoiceItemCommand}"
 									CommandParameter="{Binding}"/>
-									<Label Content="{Binding ID, Converter={StaticResource ItemIDConverter}}"/>
+									<Label Content="{Binding Name}"/>
 								</StackPanel>
 							</DataTemplate>
 						</ListBox.ItemTemplate>

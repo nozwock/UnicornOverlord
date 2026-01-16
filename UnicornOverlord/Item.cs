@@ -28,6 +28,16 @@ namespace UnicornOverlord
 			}
 		}
 
+		private string? _name;
+		public string Name
+		{
+			get
+			{
+				_name ??= Info.Instance().Search(Info.Instance().Item, ID)?.Name ?? ID.ToString();
+				return _name;
+			}
+		}
+
 		public uint Index
 		{
 			get => SaveData.Instance().ReadNumber(mAddress + 4, 4);
