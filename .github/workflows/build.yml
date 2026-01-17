@@ -60,4 +60,5 @@ jobs:
           prerelease: true
           name: git-lastest-${{ env.SHORT_SHA }}
           tag_name: git-latest
+          body: "Experimental release built from the latest commit."
           files: ${{ env.BUILD }}
