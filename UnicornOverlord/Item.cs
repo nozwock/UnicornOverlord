@@ -24,7 +24,9 @@ namespace UnicornOverlord
 			set
 			{
 				SaveData.Instance().WriteNumber(mAddress, 4, value);
+				_name = null;
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ID)));
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
 			}
 		}
 
