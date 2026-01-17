@@ -51,7 +51,7 @@ namespace UnicornOverlord
 			get => SaveData.Instance().ReadNumber(mAddress + 8, 3);
 			set
 			{
-				SaveData.Instance().WriteNumber(mAddress + 8, 3, value);
+				Util.WriteNumber(mAddress + 8, 3, value, 0, 2 ^ (8 * 3));
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
 			}
 		}
