@@ -1,4 +1,4 @@
-name: Build
+name: Git Build Release
 
 on:
   workflow_dispatch:
@@ -9,6 +9,10 @@ on:
       - ".github/**"
       - ".gitignore"
       - "*.md"
+
+concurrency:
+  group: git-build-release
+  cancel-in-progress: true
 
 jobs:
   release:
