@@ -15,8 +15,17 @@ namespace UnicornOverlord
 		private readonly System.Text.Encoding mEncode = System.Text.Encoding.UTF8;
 		public uint Adventure { private get; set; } = 0;
 
+		private readonly string backupDir = Path.Combine(Directory.GetCurrentDirectory(), "backup");
+		private readonly Dictionary<string, string> backupHashes = [];
+
 		private SaveData()
-		{ }
+		{
+			Directory.CreateDirectory(backupDir);
+			foreach (var filepath in Directory.GetFiles(backupDir, "*.DAT"))
+			{
+				backupHashes.Add(Path.GetFullPath(filepath), Util.CalcMD5(filepath));
+			}
+		}
 
 		public static SaveData Instance()
 		{
@@ -221,15 +230,22 @@ namespace UnicornOverlord
 
 		private void Backup()
 		{
-			DateTime now = DateTime.Now;
-			String path = System.IO.Directory.GetCurrentDirectory();
-			path = System.IO.Path.Combine(path, "backup");
-			if (!System.IO.Directory.Exists(path))
-			{
-				System.IO.Directory.CreateDirectory(path);
-			}
-			path = System.IO.Path.Combine(path, $"{now:yyyy-MM-dd HH-mm-ss} {System.IO.Path.GetFileName(mFileName)}");
-			System.IO.File.Copy(mFileName, path, true);
+			var now = DateTime.Now;
+
+			foreach (var (k, _) in backupHashes.Where(kv => !Path.Exists(kv.Key)))
+				// Doesn't invalidate the enumerator, ToList not required
+				backupHashes.Remove(k);
+
+			var hash = Util.CalcMD5(mFileName);
+			if (backupHashes.Values.Any(v => v == hash))
+				return; // Already backed up
+
+			Directory.CreateDirectory(backupDir);
+			var filename = $"{now:yyyy-MM-dd HH-mm-ss} {Path.GetFileName(mFileName)}";
+			var path = Path.Combine(backupDir, filename);
+			File.Copy(mFileName, path, true);
+
+			backupHashes.Add(Path.GetFullPath(path), hash);
 		}
 	}
 }
