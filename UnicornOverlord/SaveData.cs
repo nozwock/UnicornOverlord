@@ -9,7 +9,7 @@ namespace UnicornOverlord
 {
 	internal class SaveData
 	{
-		private static SaveData mThis = new SaveData();
+		private static readonly SaveData mThis = new();
 		private String mFileName = String.Empty;
 		private Byte[]? mBuffer = null;
 		private readonly System.Text.Encoding mEncode = System.Text.Encoding.UTF8;
@@ -18,6 +18,8 @@ namespace UnicornOverlord
 		private readonly string backupDir = Path.Combine(Directory.GetCurrentDirectory(), "backup");
 		private readonly Dictionary<string, string> backupHashes = [];
 
+		public static SaveData Instance => mThis;
+
 		private SaveData()
 		{
 			Directory.CreateDirectory(backupDir);
@@ -25,11 +27,6 @@ namespace UnicornOverlord
 			{
 				backupHashes.Add(Path.GetFullPath(filepath), Util.CalcMD5(filepath));
 			}
-		}
-
-		public static SaveData Instance()
-		{
-			return mThis;
 		}
 
 		public bool Open(String filename)

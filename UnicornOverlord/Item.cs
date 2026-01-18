@@ -20,10 +20,10 @@ namespace UnicornOverlord
 
 		public uint ID
 		{
-			get => SaveData.Instance().ReadNumber(mAddress, 4);
+			get => SaveData.Instance.ReadNumber(mAddress, 4);
 			set
 			{
-				SaveData.Instance().WriteNumber(mAddress, 4, value);
+				SaveData.Instance.WriteNumber(mAddress, 4, value);
 				_name = null;
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ID)));
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
@@ -42,13 +42,13 @@ namespace UnicornOverlord
 
 		public uint Index
 		{
-			get => SaveData.Instance().ReadNumber(mAddress + 4, 4);
-			set => SaveData.Instance().WriteNumber(mAddress + 4, 4, value);
+			get => SaveData.Instance.ReadNumber(mAddress + 4, 4);
+			set => SaveData.Instance.WriteNumber(mAddress + 4, 4, value);
 		}
 
 		public uint Count
 		{
-			get => SaveData.Instance().ReadNumber(mAddress + 8, 3);
+			get => SaveData.Instance.ReadNumber(mAddress + 8, 3);
 			set
 			{
 				Util.WriteNumber(mAddress + 8, 3, value, 0, (uint)1 << (8 * 3));
@@ -58,18 +58,18 @@ namespace UnicornOverlord
 
 		public uint Equipment1
 		{
-			get => SaveData.Instance().ReadNumber(mAddress + 11, 1);
+			get => SaveData.Instance.ReadNumber(mAddress + 11, 1);
 		}
 
 		public uint Equipment2
 		{
-			get => SaveData.Instance().ReadNumber(mAddress + 12, 1);
+			get => SaveData.Instance.ReadNumber(mAddress + 12, 1);
 		}
 
 		public uint Status
 		{
-			get => SaveData.Instance().ReadNumber(mAddress + 16, 4);
-			set => SaveData.Instance().WriteNumber(mAddress + 16, 4, value);
+			get => SaveData.Instance.ReadNumber(mAddress + 16, 4);
+			set => SaveData.Instance.WriteNumber(mAddress + 16, 4, value);
 		}
 	}
 }

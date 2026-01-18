@@ -10,20 +10,20 @@ namespace UnicornOverlord
 	{
 		public uint Money
 		{
-			get => SaveData.Instance().ReadNumber(0x20, 4);
-			set => SaveData.Instance().WriteNumber(0x20, 4, value);
+			get => SaveData.Instance.ReadNumber(0x20, 4);
+			set => SaveData.Instance.WriteNumber(0x20, 4, value);
 		}
 
 		public uint Fame
 		{
-			get => SaveData.Instance().ReadNumber(0x24, 4);
-			set => SaveData.Instance().WriteNumber(0x24, 4, value);
+			get => SaveData.Instance.ReadNumber(0x24, 4);
+			set => SaveData.Instance.WriteNumber(0x24, 4, value);
 		}
 
 		public bool ZENOIRA
 		{
-			get => SaveData.Instance().ReadNumber(0x4DA39E, 2) == 0x4040;
-			set => SaveData.Instance().WriteNumber(0x4DA39E, 2, value ? 0x4040U : 0);
+			get => SaveData.Instance.ReadNumber(0x4DA39E, 2) == 0x4040;
+			set => SaveData.Instance.WriteNumber(0x4DA39E, 2, value ? 0x4040U : 0);
 		}
 	}
 }

@@ -116,7 +116,7 @@ namespace UnicornOverlord
 			for (uint index = 0; index < 164; index++)
 			{
 				uint baseAddress = Util.calcBondAddress(index);
-				uint id = SaveData.Instance().ReadNumber(baseAddress, 4);
+				uint id = SaveData.Instance.ReadNumber(baseAddress, 4);
 				if (id == 0xFFFFFFFF) break;
 
 				var bonds = new ObservableCollection<Bond>();
@@ -124,7 +124,7 @@ namespace UnicornOverlord
 				for (uint count = 0; count < 164; count++)
 				{
 					uint address = baseAddress + 4 + count * 8;
-					id = SaveData.Instance().ReadNumber(address, 4);
+					id = SaveData.Instance.ReadNumber(address, 4);
 					if (id == 0xFFFFFFFF) break;
 
 					bonds.Add(new Bond(address));
@@ -174,13 +174,13 @@ namespace UnicornOverlord
 			dlg.Filter = "UCSAVEFILE|UCSAVEFILE*.DAT";
 			if (dlg.ShowDialog() == false) return;
 
-			SaveData.Instance().Open(dlg.FileName);
+			SaveData.Instance.Open(dlg.FileName);
 			Initialize();
 		}
 
 		private void SaveFile(object? parameter)
 		{
-			SaveData.Instance().Save();
+			SaveData.Instance.Save();
 		}
 
 		private void SaveAsFile(object? parameter)
@@ -189,7 +189,7 @@ namespace UnicornOverlord
 			dlg.Filter = "UCSAVEFILE|UCSAVEFILE*.DAT";
 			if (dlg.ShowDialog() == false) return;
 
-			SaveData.Instance().SaveAs(dlg.FileName);
+			SaveData.Instance.SaveAs(dlg.FileName);
 		}
 
 		private void ChoiceItem(object? parameter)
@@ -288,7 +288,7 @@ namespace UnicornOverlord
 			if (dlg.ShowDialog() == false) return;
 
 			uint address = Util.calcCharacterAddress((uint)index);
-			Byte[] buffer = SaveData.Instance().ReadValue(address, 464);
+			Byte[] buffer = SaveData.Instance.ReadValue(address, 464);
 
 			System.IO.File.WriteAllBytes(dlg.FileName, buffer);
 		}
@@ -311,10 +311,10 @@ namespace UnicornOverlord
 			uint address = Util.calcCharacterAddress((uint)index);
 
 			// use original id
-			uint id = SaveData.Instance().ReadNumber(address, 4);
+			uint id = SaveData.Instance.ReadNumber(address, 4);
 			Array.Copy(BitConverter.GetBytes(id), buffer, 4);
 
-			SaveData.Instance().WriteValue(address, buffer);
+			SaveData.Instance.WriteValue(address, buffer);
 
 			// swap
 			Characters.RemoveAt(index);
@@ -340,14 +340,14 @@ namespace UnicornOverlord
 				if (buffer.Length != 464) continue;
 
 				buffer = ProcessingCharacter(buffer);
-				uint id = SaveData.Instance().ReadNumber(0x63980, 4) + 1;
+				uint id = SaveData.Instance.ReadNumber(0x63980, 4) + 1;
 				Array.Copy(BitConverter.GetBytes(id), buffer, 4);
 				uint address = Util.calcCharacterAddress(count);
-				SaveData.Instance().WriteValue(address, buffer);
+				SaveData.Instance.WriteValue(address, buffer);
 
-				SaveData.Instance().WriteNumber(0x63980, 4, id);
-				count = SaveData.Instance().ReadNumber(0x63984, 4);
-				SaveData.Instance().WriteNumber(0x63984, 4, count + 1);
+				SaveData.Instance.WriteNumber(0x63980, 4, id);
+				count = SaveData.Instance.ReadNumber(0x63984, 4);
+				SaveData.Instance.WriteNumber(0x63984, 4, count + 1);
 
 				InsertFriendship(id);
 
@@ -425,18 +425,18 @@ namespace UnicornOverlord
 			for (uint index = 0; index < 164; index++)
 			{
 				uint baseAddress = Util.calcBondAddress(index);
-				var current_id = SaveData.Instance().ReadNumber(baseAddress, 4);
+				var current_id = SaveData.Instance.ReadNumber(baseAddress, 4);
 
 				// chack blank character
 				if(current_id == 0xFFFFFFFF)
 				{
 					// insert new character
-					SaveData.Instance().WriteNumber(baseAddress, 4, id);
+					SaveData.Instance.WriteNumber(baseAddress, 4, id);
 					for (uint count = 0; count < Characters.Count; count++)
 					{
 						uint address = baseAddress + 4 + count * 8;
 						// insert existing character
-						SaveData.Instance().WriteNumber(address, 4, Characters[(int)count].ID);
+						SaveData.Instance.WriteNumber(address, 4, Characters[(int)count].ID);
 					}
 					return;
 				}
@@ -445,10 +445,10 @@ namespace UnicornOverlord
 				for (uint count = 0; count < 164; count++)
 				{
 					uint address = baseAddress + 4 + count * 8;
-					if (SaveData.Instance().ReadNumber(address, 4) == 0xFFFFFFFF)
+					if (SaveData.Instance.ReadNumber(address, 4) == 0xFFFFFFFF)
 					{
 						// insert new character
-						SaveData.Instance().WriteNumber(address, 4, id);
+						SaveData.Instance.WriteNumber(address, 4, id);
 						break;
 					}
 				}

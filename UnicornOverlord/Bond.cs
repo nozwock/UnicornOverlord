@@ -22,12 +22,12 @@ namespace UnicornOverlord
 
 		public uint ID
 		{
-			get => SaveData.Instance().ReadNumber(mAddress, 4);
+			get => SaveData.Instance.ReadNumber(mAddress, 4);
 		}
 
 		public uint Value
 		{
-			get => SaveData.Instance().ReadNumber(mAddress + 4, 2);
+			get => SaveData.Instance.ReadNumber(mAddress + 4, 2);
 			set
 			{
 				Util.WriteNumber(mAddress + 4, 2, value, 0, 900);

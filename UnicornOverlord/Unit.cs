@@ -17,14 +17,14 @@ namespace UnicornOverlord
 
 		public uint Count
 		{
-			get => SaveData.Instance().ReadNumber(mAddress, 1);
+			get => SaveData.Instance.ReadNumber(mAddress, 1);
 			set => Util.WriteNumber(mAddress, 1, value, 1, 6);
 		}
 
 		public bool Valid
 		{
-			get => SaveData.Instance().ReadNumber(mAddress + 1670, 1) == 1;
-			set => SaveData.Instance().WriteNumber(mAddress + 1670, 1, value == true ? 1U : 0);
+			get => SaveData.Instance.ReadNumber(mAddress + 1670, 1) == 1;
+			set => SaveData.Instance.WriteNumber(mAddress + 1670, 1, value == true ? 1U : 0);
 		}
 	}
 }

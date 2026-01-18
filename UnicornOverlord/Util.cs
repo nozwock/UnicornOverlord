@@ -22,7 +22,7 @@ namespace UnicornOverlord
 		{
 			if (value < min) value = min;
 			if (value > max) value = max;
-			SaveData.Instance().WriteNumber(address, size, value);
+			SaveData.Instance.WriteNumber(address, size, value);
 		}
 
 		public static uint calcCharacterAddress(uint index)
