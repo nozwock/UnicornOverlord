@@ -15,16 +15,19 @@ using System.Windows.Input;
 
 namespace UnicornOverlord
 {
-	internal class ViewModel : INotifyPropertyChanged
+	internal class ViewModel : ObservableObject
 	{
-		public event PropertyChangedEventHandler? PropertyChanged;
-
 		const string baseWindowTitle = "UnicornOverlord Save Editor (Nintendo Switch)";
 		public string WindowTitle
 		{
 			get
 			{
-				return string.IsNullOrEmpty(WindowTitlePrefix) ? baseWindowTitle : WindowTitlePrefix + " - " + baseWindowTitle;
+				return string.IsNullOrEmpty(WindowTitlePrefix)
+					? baseWindowTitle
+					: WindowTitlePrefix
+						+ (SaveData.Instance.IsDirty ? "(*)" : "")
+						+ " - "
+						+ baseWindowTitle;
 			}
 		}
 		public string WindowTitlePrefix
@@ -32,8 +35,8 @@ namespace UnicornOverlord
 			get;
 			set
 			{
-				field = value;
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTitle)));
+				SetProperty(ref field, value);
+				OnPropertyChanged(nameof(WindowTitle));
 			}
 		} = "";
 
@@ -60,30 +63,26 @@ namespace UnicornOverlord
 		public ObservableCollection<Unit> Units { get; set; } = new ObservableCollection<Unit>();
 
 		public ICollectionView ItemsView { get; }
-		private string _itemFilterText = "";
 		public string ItemFilterText
 		{
-			get => _itemFilterText;
+			get;
 			set
 			{
-				_itemFilterText = value;
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ItemFilterText)));
+				SetProperty(ref field, value);
 				ItemsView.Refresh();
 			}
-		}
+		} = "";
 
 		public ICollectionView EquipmentsView { get; }
-		private string _equipmentFilterText = "";
 		public string EquipmentFilterText
 		{
-			get => _equipmentFilterText;
+			get;
 			set
 			{
-				_equipmentFilterText = value;
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(EquipmentFilterText)));
+				SetProperty(ref field, value);
 				EquipmentsView.Refresh();
 			}
-		}
+		} = "";
 
 		public ViewModel()
 		{
@@ -123,8 +122,10 @@ namespace UnicornOverlord
 			}
 
 			SaveData.Instance.PropertyChanged += (sender, e) => {
-				if (e.PropertyName == nameof(SaveData.Instance.FilePath))
+				if (e.PropertyName == nameof(SaveData.FilePath))
 					WindowTitlePrefix = Path.GetFileName(SaveData.Instance.FilePath);
+				else if (e.PropertyName == nameof(SaveData.IsDirty))
+					OnPropertyChanged(nameof(WindowTitle));
 			};
 		}
 
@@ -189,7 +190,7 @@ namespace UnicornOverlord
 				Units.Add(unit);
 			}
 
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Basic)));
+			OnPropertyChanged(nameof(Basic));
 		}
 
 		private void OpenFile(object? parameter)

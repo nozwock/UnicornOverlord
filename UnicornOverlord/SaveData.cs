@@ -24,6 +24,11 @@ namespace UnicornOverlord
 			get;
 			private set => SetProperty(ref field, value);
 		} = String.Empty;
+		public bool IsDirty
+		{
+			get;
+			private set => SetProperty(ref field, value);
+		} = false;
 
 		private SaveData()
 		{
@@ -45,6 +50,7 @@ namespace UnicornOverlord
 			mBuffer = buffer;
 			FilePath = filename;
 			Backup();
+			IsDirty = false;
 			return true;
 		}
 
@@ -53,6 +59,7 @@ namespace UnicornOverlord
 			if (String.IsNullOrEmpty(FilePath) || mBuffer == null) return false;
 
 			System.IO.File.WriteAllBytes(FilePath, mBuffer);
+			IsDirty = false;
 			return true;
 		}
 
@@ -135,6 +142,7 @@ namespace UnicornOverlord
 				mBuffer[address + i] = (Byte)(value & 0xFF);
 				value >>= 8;
 			}
+			IsDirty = true;
 		}
 
 		// 0 to 7.
@@ -147,6 +155,7 @@ namespace UnicornOverlord
 			Byte mask = (Byte)(1 << (int)bit);
 			if (value) mBuffer[address] = (Byte)(mBuffer[address] | mask);
 			else mBuffer[address] = (Byte)(mBuffer[address] & ~mask);
+			IsDirty = true;
 		}
 
 		public void WriteText(uint address, uint size, String value)
@@ -157,6 +166,7 @@ namespace UnicornOverlord
 			Byte[] tmp = mEncode.GetBytes(value);
 			Array.Resize(ref tmp, (int)size);
 			Array.Copy(tmp, 0, mBuffer, address, size);
+			IsDirty = true;
 		}
 
 		public void WriteValue(uint address, Byte[] buffer)
@@ -165,6 +175,7 @@ namespace UnicornOverlord
 			address = CalcAddress(address);
 			if (address + buffer.Length >= mBuffer.Length) return;
 			Array.Copy(buffer, 0, mBuffer, address, buffer.Length);
+			IsDirty = true;
 		}
 
 		public void Fill(uint address, uint size, Byte number)
@@ -176,6 +187,7 @@ namespace UnicornOverlord
 			{
 				mBuffer[address + i] = number;
 			}
+			IsDirty = true;
 		}
 
 		public void Copy(uint from, uint to, uint size)
@@ -189,6 +201,7 @@ namespace UnicornOverlord
 			{
 				mBuffer[to + i] = mBuffer[from + i];
 			}
+			IsDirty = true;
 		}
 
 		public void Swap(uint from, uint to, uint size)
@@ -204,6 +217,7 @@ namespace UnicornOverlord
 				mBuffer[to + i] = mBuffer[from + i];
 				mBuffer[from + i] = tmp;
 			}
+			IsDirty = true;
 		}
 
 		public List<uint> FindAddress(String name, uint index)
