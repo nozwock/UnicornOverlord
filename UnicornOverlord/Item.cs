@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace UnicornOverlord
 {
-	internal class Item : INotifyPropertyChanged
+	internal class Item : ObservableObject
 	{
-		public event PropertyChangedEventHandler? PropertyChanged;
-
 		private readonly uint mAddress;
 
 		public Item(uint address)
@@ -25,8 +23,8 @@ namespace UnicornOverlord
 			{
 				SaveData.Instance.WriteNumber(mAddress, 4, value);
 				_name = null;
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ID)));
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
+				OnPropertyChanged();
+				OnPropertyChanged(nameof(Name));
 			}
 		}
 
@@ -43,7 +41,11 @@ namespace UnicornOverlord
 		public uint Index
 		{
 			get => SaveData.Instance.ReadNumber(mAddress + 4, 4);
-			set => SaveData.Instance.WriteNumber(mAddress + 4, 4, value);
+			set
+			{
+				SaveData.Instance.WriteNumber(mAddress + 4, 4, value);
+				OnPropertyChanged();
+			}
 		}
 
 		public uint Count
@@ -52,7 +54,7 @@ namespace UnicornOverlord
 			set
 			{
 				Util.WriteNumber(mAddress + 8, 3, value, 0, (uint)1 << (8 * 3));
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
+				OnPropertyChanged();
 			}
 		}
 
@@ -63,6 +65,11 @@ namespace UnicornOverlord
 		public byte EquipSlotIndex
 		{
 			get => (byte)SaveData.Instance.ReadNumber(mAddress + 11, 1);
+			set
+			{
+				SaveData.Instance.WriteNumber(mAddress + 11, 1, value);
+				OnPropertyChanged();
+			}
 		}
 
 		/// <summary>
@@ -72,6 +79,11 @@ namespace UnicornOverlord
 		public uint UnitEquippedIconId
 		{
 			get => SaveData.Instance.ReadNumber(mAddress + 12, 4);
+			set
+			{
+				SaveData.Instance.WriteNumber(mAddress + 12, 4, value);
+				OnPropertyChanged();
+			}
 		}
 
 		// Whether the item is favorited, has been viewed, etc
@@ -83,7 +95,11 @@ namespace UnicornOverlord
 		public uint Status
 		{
 			get => SaveData.Instance.ReadNumber(mAddress + 16, 4);
-			set => SaveData.Instance.WriteNumber(mAddress + 16, 4, value);
+			set
+			{
+				SaveData.Instance.WriteNumber(mAddress + 16, 4, value);
+				OnPropertyChanged();
+			}
 		}
 	}
 }

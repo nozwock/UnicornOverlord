@@ -268,6 +268,8 @@ namespace UnicornOverlord
 			var item = AppendItem(ChoiceWindow.eType.eItem);
 			if (item == null) return;
 
+			// TODO: Prevent user from adding items that are already present
+
 			item.Count = 1;
 			Items.Add(item);
 		}
@@ -293,6 +295,11 @@ namespace UnicornOverlord
 			var item = new Item(0xA0 + index * 20);
 			item.ID = dlg.ID;
 			item.Index = index + 1;
+
+			// Reset, just in case they aren't already
+			item.Count = 0; // Set to 1 in AppendItem
+			item.EquipSlotIndex = byte.MaxValue;
+			item.UnitEquippedIconId = uint.MaxValue;
 
 			// 2 (0b10) seems to be for unviewed/new items
 			item.Status = 2;
