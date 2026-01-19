@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,7 @@ namespace UnicornOverlord
 			eClass,
 		};
 
+		private List<NameValueInfo> choices = [];
 		public uint ID { get; set; }
 		public eType Type { get; set; } = eType.eItem;
 		public ChoiceWindow()
@@ -35,7 +37,8 @@ namespace UnicornOverlord
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			CreateItemList("");
+			BuildChoices();
+			FilterChoices(TextBoxFilter.Text);
 			foreach (var item in ListBoxItem.Items)
 			{
 				if (item is not NameValueInfo info) continue;
@@ -50,7 +53,7 @@ namespace UnicornOverlord
 
 		private void TextBoxFilter_TextChanged(object sender, TextChangedEventArgs e)
 		{
-			CreateItemList(TextBoxFilter.Text);
+			FilterChoices(TextBoxFilter.Text);
 		}
 
 		private void ListBoxItem_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -65,37 +68,45 @@ namespace UnicornOverlord
 			Close();
 		}
 
-		private void CreateItemList(String filter)
+		void BuildChoices()
 		{
-			ListBoxItem.Items.Clear();
-			List<NameValueInfo> items = Info.Instance().Item;
-			if (Type == eType.eClass) items = Info.Instance().Class;
+			if (Type == eType.eClass)
+			{
+				choices = Info.Instance().Class.ToList();
+				return;
+			}
 
+			List<NameValueInfo> items = Info.Instance().Item;
 			foreach (var item in items)
 			{
-				if (String.IsNullOrEmpty(filter) || item.Name.Contains(filter, StringComparison.OrdinalIgnoreCase))
+				if (Type == eType.eItem)
 				{
-					if (Type == eType.eItem)
-					{
-						var kind = Info.Instance().Search(Info.Instance().Kind, item.Value);
-						if (kind == null)
-						{
-							ListBoxItem.Items.Add(item);
-						}
-					}
-					else if (Type == eType.eEquipment)
-					{
-						var kind = Info.Instance().Search(Info.Instance().Kind, item.Value);
-						if (kind != null)
-						{
-							ListBoxItem.Items.Add(item);
-						}
-					}
-					else
-					{
-						ListBoxItem.Items.Add(item);
-					}
+					var kind = Info.Instance().Search(Info.Instance().Kind, item.Value);
+					if (kind == null)
+						choices.Add(item);
 				}
+				else if (Type == eType.eEquipment)
+				{
+					var kind = Info.Instance().Search(Info.Instance().Kind, item.Value);
+					if (kind != null)
+						choices.Add(item);
+				}
+				else
+				{
+					throw new UnreachableException();
+				}
+			}
+
+		}
+
+		private void FilterChoices(String filter)
+		{
+			ListBoxItem.Items.Clear();
+
+			foreach (var choice in choices)
+			{
+				if (String.IsNullOrEmpty(filter) || choice.Name.Contains(filter, StringComparison.OrdinalIgnoreCase))
+					ListBoxItem.Items.Add(choice);
 			}
 		}
 	}
