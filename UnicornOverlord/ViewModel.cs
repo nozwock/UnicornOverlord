@@ -231,11 +231,14 @@ namespace UnicornOverlord
 			if (item == null) return;
 
 			ChoiceItem(ChoiceWindow.eType.eEquipment, item);
-			var info = Info.Search(Info.Kind, item.ID);
-			if (info != null)
-			{
-				item.Status = uint.Parse(info.Name);
-			}
+			// NOTE: Leave Status as is when replacing, it's not some item-type
+			// identifier as presumed here and in some other places
+			//
+			// var info = Info.Search(Info.Kind, item.ID);
+			// if (info != null)
+			// {
+			// 	item.Status = uint.Parse(info.Name);
+			// }
 		}
 
 		private void ChoiceItem(ChoiceWindow.eType type, Item item)
@@ -245,7 +248,7 @@ namespace UnicornOverlord
 			dlg.ID = item.ID;
 			dlg.ShowDialog();
 			item.ID = dlg.ID;
-			item.Status = 2;
+			// item.Status = 2;
 		}
 
 		private void ChoiceClass(object? parameter)
@@ -291,14 +294,15 @@ namespace UnicornOverlord
 			item.ID = dlg.ID;
 			item.Index = index + 1;
 
+			// 2 (0b10) seems to be for unviewed/new items
 			item.Status = 2;
-			var info = Info.Search(Info.Kind, item.ID);
-			if (info != null)
-            {
-				item.Status = uint.Parse(info.Name);
-            }
+			// var info = Info.Search(Info.Kind, item.ID);
+			// if (info != null)
+			// {
+			// 	item.Status = uint.Parse(info.Name);
+			// }
 
-            return item;
+			return item;
 		}
 
 		private void ExportCharacter(object? parameter)

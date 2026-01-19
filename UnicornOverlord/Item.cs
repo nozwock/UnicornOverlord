@@ -74,6 +74,12 @@ namespace UnicornOverlord
 			get => SaveData.Instance.ReadNumber(mAddress + 12, 4);
 		}
 
+		// Whether the item is favorited, has been viewed, etc
+		// Seems to be a bit array? (Of 4 bytes!?)
+		// 1st bit - ??
+		// 2nd bit - 0b000010 (02) - unviewed/new
+		// 3rd bit - 0b000100 (04) - viewed
+		// 6th bit - 0b100100 (24) - favorite & viewed
 		public uint Status
 		{
 			get => SaveData.Instance.ReadNumber(mAddress + 16, 4);
