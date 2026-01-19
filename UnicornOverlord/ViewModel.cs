@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -17,6 +18,24 @@ namespace UnicornOverlord
 	internal class ViewModel : INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler? PropertyChanged;
+
+		const string baseWindowTitle = "UnicornOverlord Save Editor (Nintendo Switch)";
+		public string WindowTitle
+		{
+			get
+			{
+				return string.IsNullOrEmpty(WindowTitlePrefix) ? baseWindowTitle : WindowTitlePrefix + " - " + baseWindowTitle;
+			}
+		}
+		public string WindowTitlePrefix
+		{
+			get;
+			set
+			{
+				field = value;
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTitle)));
+			}
+		} = "";
 
 		private readonly Info Info = Info.Instance();
 		public ICommand OpenFileCommand { get; set; }
@@ -175,6 +194,7 @@ namespace UnicornOverlord
 			if (dlg.ShowDialog() == false) return;
 
 			SaveData.Instance.Open(dlg.FileName);
+			WindowTitlePrefix = Path.GetFileName(dlg.FileName);
 			Initialize();
 		}
 

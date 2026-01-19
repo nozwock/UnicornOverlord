@@ -7,7 +7,7 @@
 		xmlns:prop="clr-namespace:UnicornOverlord.Properties"
         mc:Ignorable="d"
 		WindowStartupLocation="CenterScreen"
-        Title="Unicorn Overlord(Nintendo Switch)" Height="500" Width="700">
+        Title="{Binding WindowTitle}" Height="500" Width="700">
 	<Window.InputBindings>
 		<KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding OpenFileCommand}"/>
 		<KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding SaveFileCommand}"/>
