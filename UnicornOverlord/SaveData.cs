@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -7,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace UnicornOverlord
 {
-	internal class SaveData
+	internal class SaveData : ObservableObject
 	{
 		private static readonly SaveData mThis = new();
-		private String mFileName = String.Empty;
 		private Byte[]? mBuffer = null;
 		private readonly System.Text.Encoding mEncode = System.Text.Encoding.UTF8;
 		public uint Adventure { private get; set; } = 0;
@@ -19,6 +19,11 @@ namespace UnicornOverlord
 		private readonly Dictionary<string, string> backupHashes = [];
 
 		public static SaveData Instance => mThis;
+		public string FilePath
+		{
+			get;
+			private set => SetProperty(ref field, value);
+		} = String.Empty;
 
 		private SaveData()
 		{
@@ -38,29 +43,29 @@ namespace UnicornOverlord
 			if(header != "UCSD") return false;
 
 			mBuffer = buffer;
-			mFileName = filename;
+			FilePath = filename;
 			Backup();
 			return true;
 		}
 
 		public bool Save()
 		{
-			if (String.IsNullOrEmpty(mFileName) || mBuffer == null) return false;
+			if (String.IsNullOrEmpty(FilePath) || mBuffer == null) return false;
 
-			System.IO.File.WriteAllBytes(mFileName, mBuffer);
+			System.IO.File.WriteAllBytes(FilePath, mBuffer);
 			return true;
 		}
 
 		public bool SaveAs(String filename)
 		{
-			if (String.IsNullOrEmpty(mFileName) || mBuffer == null) return false;
-			mFileName = filename;
+			if (String.IsNullOrEmpty(FilePath) || mBuffer == null) return false;
+			FilePath = filename;
 			return Save();
 		}
 
 		public void Import(String filename)
 		{
-			if (String.IsNullOrEmpty(mFileName)) return;
+			if (String.IsNullOrEmpty(FilePath)) return;
 
 			mBuffer = System.IO.File.ReadAllBytes(filename);
 		}
@@ -233,14 +238,14 @@ namespace UnicornOverlord
 				// Doesn't invalidate the enumerator, ToList not required
 				backupHashes.Remove(k);
 
-			var hash = Util.CalcMD5(mFileName);
+			var hash = Util.CalcMD5(FilePath);
 			if (backupHashes.Values.Any(v => v == hash))
 				return; // Already backed up
 
 			Directory.CreateDirectory(backupDir);
-			var filename = $"{now:yyyy-MM-dd HH-mm-ss} {Path.GetFileName(mFileName)}";
+			var filename = $"{now:yyyy-MM-dd HH-mm-ss} {Path.GetFileName(FilePath)}";
 			var path = Path.Combine(backupDir, filename);
-			File.Copy(mFileName, path, true);
+			File.Copy(FilePath, path, true);
 
 			backupHashes.Add(Path.GetFullPath(path), hash);
 		}

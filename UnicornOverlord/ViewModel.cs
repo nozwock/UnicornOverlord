@@ -121,6 +121,11 @@ namespace UnicornOverlord
 						StringComparison.OrdinalIgnoreCase);
 				};
 			}
+
+			SaveData.Instance.PropertyChanged += (sender, e) => {
+				if (e.PropertyName == nameof(SaveData.Instance.FilePath))
+					WindowTitlePrefix = Path.GetFileName(SaveData.Instance.FilePath);
+			};
 		}
 
 		private void Initialize()
@@ -194,7 +199,6 @@ namespace UnicornOverlord
 			if (dlg.ShowDialog() == false) return;
 
 			SaveData.Instance.Open(dlg.FileName);
-			WindowTitlePrefix = Path.GetFileName(dlg.FileName);
 			Initialize();
 		}
 
