@@ -17,6 +17,8 @@
 		<local:ClassIDConverter x:Key="ClassIDConverter"/>
 		<local:ItemIDConverter x:Key="ItemIDConverter"/>
 		<local:NameIDConverter x:Key="NameIDConverter"/>
+		<local:ItemEquipSlotConverter x:Key="ItemEquipSlotConverter"/>
+		<local:ItemUnitEquippedIconIdConverter x:Key="ItemUnitEquippedIconIdConverter"/>
 	</Window.Resources>
 	<Window.DataContext>
 		<local:ViewModel/>
@@ -235,10 +237,10 @@
 						<ListBox.ItemTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Label Content="???1"/>
-									<Label Content="{Binding Equipment1}" Width="50"/>
-									<Label Content="???2"/>
-									<Label Content="{Binding Equipment2}" Width="50"/>
+									<Label Content="Equipped By"/>
+									<Label Content="{Binding UnitEquippedIconId, Converter={StaticResource ItemUnitEquippedIconIdConverter}}" Width="50"/>
+									<Label Content="Last Slot"/>
+									<Label Content="{Binding EquipSlotIndex, Converter={StaticResource ItemEquipSlotConverter}}" Width="50"/>
 									<Button Content=" ... "
 									Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.ChoiceEquipmentCommand}"
 									CommandParameter="{Binding}"/>

@@ -56,14 +56,22 @@ namespace UnicornOverlord
 			}
 		}
 
-		public uint Equipment1
+		/// <summary>
+		/// Equip slot of an unit the is item in. FF if the item was never
+		/// equipped.
+		/// </summary>
+		public byte EquipSlotIndex
 		{
-			get => SaveData.Instance.ReadNumber(mAddress + 11, 1);
+			get => (byte)SaveData.Instance.ReadNumber(mAddress + 11, 1);
 		}
 
-		public uint Equipment2
+		/// <summary>
+		/// Some portrait icon id for the unit that the item is equipped by. <br/>
+		/// Value is `uint.MaxValue` if the item is not equipped by any unit.
+		/// </summary>
+		public uint UnitEquippedIconId
 		{
-			get => SaveData.Instance.ReadNumber(mAddress + 12, 1);
+			get => SaveData.Instance.ReadNumber(mAddress + 12, 4);
 		}
 
 		public uint Status
