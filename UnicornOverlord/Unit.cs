@@ -15,9 +15,9 @@ namespace UnicornOverlord
 			mAddress = address;
 		}
 
-		public uint Count
+		public byte Count
 		{
-			get => SaveData.Instance.ReadNumber(mAddress, 1);
+			get => (byte)SaveData.Instance.ReadNumber(mAddress, 1);
 			set => Util.WriteNumber(mAddress, 1, value, 1, 6);
 		}
 

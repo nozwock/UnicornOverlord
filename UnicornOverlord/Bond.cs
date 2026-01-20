@@ -15,8 +15,8 @@ namespace UnicornOverlord
 		private readonly uint mAddress;
 		public Bond(uint address)
 		{
-			// ID P, Bond Value Q, Read Rapport ?
-			// PP PP PP PP QQ QQ ?? ?? ...
+			// ID P, Bond Value Q, Rapport Progression
+			// PP PP PP PP QQ QQ RR RR
 			mAddress = address;
 		}
 
@@ -25,9 +25,9 @@ namespace UnicornOverlord
 			get => SaveData.Instance.ReadNumber(mAddress, 4);
 		}
 
-		public uint Value
+		public ushort Value
 		{
-			get => SaveData.Instance.ReadNumber(mAddress + 4, 2);
+			get => (ushort)SaveData.Instance.ReadNumber(mAddress + 4, 2);
 			set
 			{
 				Util.WriteNumber(mAddress + 4, 2, value, 0, 900);

@@ -39,7 +39,7 @@ namespace UnicornOverlord
 
 		public uint Name
 		{
-			get => SaveData.Instance.ReadNumber(mAddress + 52, 2);
+			get => SaveData.Instance.ReadNumber(mAddress + 52, 4);
 		}
 
 		public uint Exp
@@ -48,69 +48,69 @@ namespace UnicornOverlord
 			set => SaveData.Instance.WriteNumber(mAddress + 56, 4, value);
 		}
 
-		public uint Lv
+		public ushort Lv
 		{
-			get => SaveData.Instance.ReadNumber(mAddress + 60, 2);
+			get => (ushort)SaveData.Instance.ReadNumber(mAddress + 60, 2);
 			set => SaveData.Instance.WriteNumber(mAddress + 60, 2, value);
 		}
 
-		public uint HPPlus
+		public byte HPPlus
 		{
-			get => SaveData.Instance.ReadNumber(mAddress + 64, 1);
+			get => (byte)SaveData.Instance.ReadNumber(mAddress + 64, 1);
 			set => SaveData.Instance.WriteNumber(mAddress + 64, 1, value);
 		}
 
-		public uint AttackPlus
+		public byte AttackPlus
 		{
-			get => SaveData.Instance.ReadNumber(mAddress + 65, 1);
+			get => (byte)SaveData.Instance.ReadNumber(mAddress + 65, 1);
 			set => SaveData.Instance.WriteNumber(mAddress + 65, 1, value);
 		}
 
-		public uint DefensePlus
+		public byte DefensePlus
 		{
-			get => SaveData.Instance.ReadNumber(mAddress + 66, 1);
+			get => (byte)SaveData.Instance.ReadNumber(mAddress + 66, 1);
 			set => SaveData.Instance.WriteNumber(mAddress + 66, 1, value);
 		}
 
-		public uint MagicAttackPlus
+		public byte MagicAttackPlus
 		{
-			get => SaveData.Instance.ReadNumber(mAddress + 67, 1);
+			get => (byte)SaveData.Instance.ReadNumber(mAddress + 67, 1);
 			set => SaveData.Instance.WriteNumber(mAddress + 67, 1, value);
 		}
 
-		public uint MagicDefensePlus
+		public byte MagicDefensePlus
 		{
-			get => SaveData.Instance.ReadNumber(mAddress + 68, 1);
+			get => (byte)SaveData.Instance.ReadNumber(mAddress + 68, 1);
 			set => SaveData.Instance.WriteNumber(mAddress + 68, 1, value);
 		}
 
-		public uint HitRatePlus
+		public byte HitRatePlus
 		{
-			get => SaveData.Instance.ReadNumber(mAddress + 69, 1);
+			get => (byte)SaveData.Instance.ReadNumber(mAddress + 69, 1);
 			set => SaveData.Instance.WriteNumber(mAddress + 69, 1, value);
 		}
 
-		public uint AVoidPlus
+		public byte AVoidPlus
 		{
-			get => SaveData.Instance.ReadNumber(mAddress + 70, 1);
+			get => (byte)SaveData.Instance.ReadNumber(mAddress + 70, 1);
 			set => SaveData.Instance.WriteNumber(mAddress + 70, 1, value);
 		}
 
-		public uint CriticalPlus
+		public byte CriticalPlus
 		{
-			get => SaveData.Instance.ReadNumber(mAddress + 71, 1);
+			get => (byte)SaveData.Instance.ReadNumber(mAddress + 71, 1);
 			set => SaveData.Instance.WriteNumber(mAddress + 71, 1, value);
 		}
 
-		public uint GuardPlus
+		public byte GuardPlus
 		{
-			get => SaveData.Instance.ReadNumber(mAddress + 72, 1);
+			get => (byte)SaveData.Instance.ReadNumber(mAddress + 72, 1);
 			set => SaveData.Instance.WriteNumber(mAddress + 72, 1, value);
 		}
 
-		public uint SpeedPlus
+		public byte SpeedPlus
 		{
-			get => SaveData.Instance.ReadNumber(mAddress + 73, 1);
+			get => (byte)SaveData.Instance.ReadNumber(mAddress + 73, 1);
 			set => SaveData.Instance.WriteNumber(mAddress + 73, 1, value);
 		}
 
