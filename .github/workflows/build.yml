@@ -9,6 +9,7 @@ on:
       - ".github/**"
       - ".gitignore"
       - "*.md"
+      - "*.hexpat"
 
 concurrency:
   group: git-build-release
