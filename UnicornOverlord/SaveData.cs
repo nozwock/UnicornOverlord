@@ -16,6 +16,7 @@ namespace UnicornOverlord
 		public uint Adventure { private get; set; } = 0;
 
 		private readonly string backupDir = Path.Combine(Directory.GetCurrentDirectory(), "backup");
+		private bool backupDoneOncePerOpen = false;
 		private readonly Dictionary<string, string> backupHashes = [];
 
 		public static SaveData Instance => mThis;
@@ -39,35 +40,40 @@ namespace UnicornOverlord
 			}
 		}
 
-		public bool Open(String filename)
+		public bool Open(String filepath)
 		{
-			if (System.IO.File.Exists(filename) == false) return false;
+			if (System.IO.File.Exists(filepath) == false) return false;
 
-			var buffer = System.IO.File.ReadAllBytes(filename);
+			var buffer = System.IO.File.ReadAllBytes(filepath);
 			String header = mEncode.GetString(buffer, 4, 4);
 			if(header != "UCSD") return false;
 
 			mBuffer = buffer;
-			FilePath = filename;
-			Backup();
+			FilePath = filepath;
+
 			IsDirty = false;
+			backupDoneOncePerOpen = false;
+
 			return true;
 		}
 
-		public bool Save()
+		public bool Save(string? filepath = null)
 		{
 			if (String.IsNullOrEmpty(FilePath) || mBuffer == null) return false;
 
+			BackupOpenedSave(); // FilePath
+
+			if (filepath != null)
+				FilePath = filepath;
 			System.IO.File.WriteAllBytes(FilePath, mBuffer);
+
 			IsDirty = false;
 			return true;
 		}
 
-		public bool SaveAs(String filename)
+		public bool SaveAs(String filepath)
 		{
-			if (String.IsNullOrEmpty(FilePath) || mBuffer == null) return false;
-			FilePath = filename;
-			return Save();
+			return Save(filepath);
 		}
 
 		public void Import(String filename)
@@ -244,8 +250,14 @@ namespace UnicornOverlord
 			return address + Adventure;
 		}
 
-		private void Backup()
+		/// <summary>
+		/// Backup is done on Save, and only once per Open.
+		/// </summary>
+		private void BackupOpenedSave()
 		{
+			if (backupDoneOncePerOpen)
+				return;
+
 			var now = DateTime.Now;
 
 			foreach (var (k, _) in backupHashes.Where(kv => !Path.Exists(kv.Key)))
@@ -254,13 +266,17 @@ namespace UnicornOverlord
 
 			var hash = Util.CalcMD5(FilePath);
 			if (backupHashes.Values.Any(v => v == hash))
-				return; // Already backed up
+			{
+					backupDoneOncePerOpen = true;
+					return; // Already backed up
+			}
 
 			Directory.CreateDirectory(backupDir);
 			var filename = $"{now:yyyy-MM-dd HH-mm-ss} {Path.GetFileName(FilePath)}";
 			var path = Path.Combine(backupDir, filename);
 			File.Copy(FilePath, path, true);
 
+			backupDoneOncePerOpen = true;
 			backupHashes.Add(Path.GetFullPath(path), hash);
 		}
 	}
