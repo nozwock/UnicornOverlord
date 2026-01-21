@@ -18,8 +18,11 @@ bool show_empty_entries in;
 
 
 struct State {
-    u32 gold @ 0x20;
-    u32 renown @ 0x24;
+    u32 gold;
+    u32 renown;
+    u32 avg_level; // Visual only, is shown in the Save Menu
+    padding[24];
+    u32 maiden_char_name_id;
     u16 zenoira_difficulty @ 0x4DA39E; // value is 0x4040 if set
 } [[static, inline]];
 
@@ -97,7 +100,7 @@ struct Unit {
 } [[static, fixed_size(1720)]];
 
 
-State state @ 0x00;
+State state @ 0x20;
 InventoryItem inventory[3800] @ 0xA0;
 Character characters[500] @ 0x2AF40;
 Rapport rapports[164] @ 0x1B5830;
