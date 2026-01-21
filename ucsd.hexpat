@@ -30,7 +30,8 @@ bitfield InventoryItemStatus {
     _unknown1: 1;
     bool unseen: 1;
     bool seen: 1;
-    padding: 2;
+    padding: 1;
+    bool upgraded: 1;
     bool favorite: 1;
 } [[fixed_size(4)]];
 
