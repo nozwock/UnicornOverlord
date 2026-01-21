@@ -314,13 +314,8 @@ namespace UnicornOverlord
 			item.EquipSlotIndex = byte.MaxValue;
 			item.EquippedCharId = uint.MaxValue;
 
-			// 2 (0b10) seems to be for unviewed/new items
-			item.Status = 2;
-			// var info = Info.Search(Info.Kind, item.ID);
-			// if (info != null)
-			// {
-			// 	item.Status = uint.Parse(info.Name);
-			// }
+			item._StatusBitField = 0;
+			item.StatusUnseen = true;
 
 			return item;
 		}

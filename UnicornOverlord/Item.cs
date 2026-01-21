@@ -88,18 +88,48 @@ namespace UnicornOverlord
 			}
 		}
 
-		// Whether the item is favorited, has been viewed, etc
-		// Seems to be a bit array? (Of 4 bytes!?)
-		// 1st bit - ??
-		// 2nd bit - 0b000010 (02) - unviewed/new
-		// 3rd bit - 0b000100 (04) - viewed
-		// 6th bit - 0b100100 (24) - favorite & viewed
-		public uint Status
+		public uint _StatusBitField
 		{
 			get => SaveData.Instance.ReadNumber(mAddress + 16, 4);
 			set
 			{
 				SaveData.Instance.WriteNumber(mAddress + 16, 4, value);
+				OnPropertyChanged();
+			}
+		}
+		public bool StatusUnseen
+		{
+			get => SaveData.Instance.ReadBit(mAddress + 16, 1); // 0 indexed
+			set
+			{
+				SaveData.Instance.WriteBit(mAddress + 16, 1, value);
+				OnPropertyChanged();
+			}
+		}
+		public bool StatusSeen
+		{
+			get => SaveData.Instance.ReadBit(mAddress + 16, 2);
+			set
+			{
+				SaveData.Instance.WriteBit(mAddress + 16, 2, value);
+				OnPropertyChanged();
+			}
+		}
+		public bool StatusUpgraded
+		{
+			get => SaveData.Instance.ReadBit(mAddress + 16, 4);
+			set
+			{
+				SaveData.Instance.WriteBit(mAddress + 16, 4, value);
+				OnPropertyChanged();
+			}
+		}
+		public bool StatusFavorite
+		{
+			get => SaveData.Instance.ReadBit(mAddress + 16, 5);
+			set
+			{
+				SaveData.Instance.WriteBit(mAddress + 16, 5, value);
 				OnPropertyChanged();
 			}
 		}
