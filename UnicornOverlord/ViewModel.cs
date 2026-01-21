@@ -40,7 +40,6 @@ namespace UnicornOverlord
 			}
 		} = "";
 
-		private readonly Info Info = Info.Instance();
 		public ICommand OpenFileCommand { get; set; }
 		public ICommand SaveFileCommand { get; set; }
 		public ICommand SaveAsFileCommand { get; set; }

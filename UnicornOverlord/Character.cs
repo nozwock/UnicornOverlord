@@ -47,7 +47,7 @@ namespace UnicornOverlord
 		{
 			get
 			{
-				_name ??= Info.Instance().Search(Info.Instance().Name, NameId)?.Name ?? NameId.ToString();
+				_name ??= Info.Name.TryGetValue(NameId, out var info) ? info.Name : NameId.ToString();
 				return _name;
 			}
 		}

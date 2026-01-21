@@ -13,9 +13,8 @@ namespace UnicornOverlord
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			uint id = (uint)value;
-			var cls = Info.Instance().Search(Info.Instance().Class, id);
-			if (cls == null) return id.ToString();
-			return cls.Name;
+			if (Info.Class.TryGetValue(id, out var info)) return info.Name;
+			return id.ToString();
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

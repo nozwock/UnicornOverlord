@@ -72,23 +72,20 @@ namespace UnicornOverlord
 		{
 			if (Type == eType.eClass)
 			{
-				choices = Info.Instance().Class.ToList();
+				choices = Info.Class.Values.ToList();
 				return;
 			}
 
-			List<NameValueInfo> items = Info.Instance().Item;
-			foreach (var item in items)
+			foreach (var item in Info.Item.Values)
 			{
 				if (Type == eType.eItem)
 				{
-					var kind = Info.Instance().Search(Info.Instance().Kind, item.Value);
-					if (kind == null)
+					if (!Info.Kind.ContainsKey(item.Value))
 						choices.Add(item);
 				}
 				else if (Type == eType.eEquipment)
 				{
-					var kind = Info.Instance().Search(Info.Instance().Kind, item.Value);
-					if (kind != null)
+					if (Info.Kind.ContainsKey(item.Value))
 						choices.Add(item);
 				}
 				else

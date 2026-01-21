@@ -33,7 +33,7 @@ namespace UnicornOverlord
 		{
 			get
 			{
-				_name ??= Info.Instance().Search(Info.Instance().Item, ID)?.Name ?? ID.ToString();
+				_name ??= Info.Item.TryGetValue(ID, out var info) ? info.Name : ID.ToString();
 				return _name;
 			}
 		}
