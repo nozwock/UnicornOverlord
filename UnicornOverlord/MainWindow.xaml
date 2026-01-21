@@ -16,10 +16,7 @@
 	</Window.InputBindings>
 	<Window.Resources>
 		<local:ClassIDConverter x:Key="ClassIDConverter"/>
-		<local:ItemIDConverter x:Key="ItemIDConverter"/>
-		<local:NameIDConverter x:Key="NameIDConverter"/>
 		<local:ItemEquipSlotConverter x:Key="ItemEquipSlotConverter"/>
-		<local:ItemUnitEquippedIconIdConverter x:Key="ItemUnitEquippedIconIdConverter"/>
 		<local:CharIdNameMultiConverter x:Key="CharIdNameMultiConverter"/>
 	</Window.Resources>
 	<Window.DataContext>
