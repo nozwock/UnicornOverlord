@@ -374,6 +374,7 @@ namespace UnicornOverlord
 
 			// swap
 			var ch = new Character(address);
+			ch.Bonds = Characters.ElementAt(index).Bonds;
 			CharactersById.Remove(Characters.ElementAt(index).ID);
 			Characters.RemoveAt(index);
 			Characters.Insert(index, ch);
