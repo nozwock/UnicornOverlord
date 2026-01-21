@@ -163,15 +163,22 @@
 									<Button Grid.Column="1" Content="Max All Bonds"
 											Command="{Binding ChangeCharacterBondMaxAllCommand}"/>
 								</Grid>
-								<ListBox ItemsSource="{Binding ElementName=ListBoxCharacter, Path=SelectedItem.Bonds}">
+								<ListBox
+									ItemsSource="{Binding ElementName=ListBoxCharacter, Path=SelectedItem.Bonds}"
+									HorizontalContentAlignment="Stretch">
 									<ListBox.ItemTemplate>
 										<DataTemplate>
-											<StackPanel Orientation="Horizontal">
-												<Label Content="ID"/>
-												<Label Content="{Binding ID}"/>
-												<Label Content="Value"/>
-												<TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Width="50"/>
-											</StackPanel>
+											<Grid>
+												<Grid.ColumnDefinitions>
+													<ColumnDefinition/>
+													<ColumnDefinition/>
+												</Grid.ColumnDefinitions>
+												<Label Grid.Column="0" Content="{Binding Name}"/>
+												<StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+													<Label Content="Value"/>
+													<TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Width="50"/>
+												</StackPanel>
+											</Grid>
 										</DataTemplate>
 									</ListBox.ItemTemplate>
 								</ListBox>

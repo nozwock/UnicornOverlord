@@ -136,26 +136,6 @@ namespace UnicornOverlord
 			Equipments.Clear();
 			Units.Clear();
 
-			// create bond
-			var bondDictionary = new Dictionary<uint, ObservableCollection<Bond>>();
-			for (uint index = 0; index < 164; index++)
-			{
-				uint baseAddress = Util.calcBondAddress(index);
-				uint id = SaveData.Instance.ReadNumber(baseAddress, 4);
-				if (id == 0xFFFFFFFF) break;
-
-				var bonds = new ObservableCollection<Bond>();
-				bondDictionary.Add(id, bonds);
-				for (uint count = 0; count < 164; count++)
-				{
-					uint address = baseAddress + 4 + count * 8;
-					id = SaveData.Instance.ReadNumber(address, 4);
-					if (id == 0xFFFFFFFF) break;
-
-					bonds.Add(new Bond(address));
-				}
-			}
-
 			// create character
 			// counter ??
 			for (uint i = 0; i < 500; i++)
@@ -163,13 +143,10 @@ namespace UnicornOverlord
 				var ch = new Character(Util.calcCharacterAddress(i));
 				if (ch.ID == 0xFFFFFFFF) break;
 
-				if(bondDictionary.ContainsKey(ch.ID))
-				{
-					ch.Bonds = bondDictionary[ch.ID];
-				}
-
 				Characters.Add(ch);
 			}
+
+			SetCharacterBonds(Characters);
 
 			// create item
 			for (uint i = 0; i < 3800; i++)
@@ -191,6 +168,46 @@ namespace UnicornOverlord
 			}
 
 			OnPropertyChanged(nameof(Basic));
+		}
+
+		static void SetCharacterBonds(IList<Character> characters)
+		{
+			static Dictionary<uint, ObservableCollection<Bond>> BondsMapping(IList<Character> characters)
+			{
+				var charIdNameMap = new Dictionary<uint, uint>();
+				foreach (var ch in characters)
+				{
+					charIdNameMap.Add(ch.ID, ch.Name);
+				}
+
+				var bondsMap = new Dictionary<uint, ObservableCollection<Bond>>();
+				for (uint char_idx = 0; char_idx < 164; char_idx++)
+				{
+					uint baseAddr = Util.calcBondAddress(char_idx);
+					uint char_id = SaveData.Instance.ReadNumber(baseAddr, 4);
+					if (char_id == 0xFFFFFFFF) break;
+
+					var bonds = new ObservableCollection<Bond>();
+					bondsMap.Add(char_id, bonds);
+					for (uint bond_idx = 0; bond_idx < 164; bond_idx++)
+					{
+						uint bondAddr = baseAddr + 4 + bond_idx * 8;
+						char_id = SaveData.Instance.ReadNumber(bondAddr, 4);
+						if (char_id == 0xFFFFFFFF) break;
+
+						bonds.Add(new Bond(bondAddr, charIdNameMap.GetValueOrDefault(char_id)));
+					}
+				}
+
+				return bondsMap;
+			}
+
+			var bondsMap = BondsMapping(characters);
+			foreach (var ch in characters)
+			{
+				if (bondsMap.TryGetValue(ch.ID, out var bonds))
+					ch.Bonds = bonds;
+			}
 		}
 
 		private void OpenFile(object? parameter)
@@ -390,6 +407,8 @@ namespace UnicornOverlord
 				var ch = new Character(Util.calcCharacterAddress((uint)Characters.Count));
 				if (ch.ID == 0xFFFFFFFF) continue;
 				Characters.Add(ch);
+
+				SetCharacterBonds(Characters);
 			}
 		}
 
