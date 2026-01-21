@@ -7,6 +7,7 @@
 		xmlns:prop="clr-namespace:UnicornOverlord.Properties"
         mc:Ignorable="d"
 		WindowStartupLocation="CenterScreen"
+		Name="AppMainWindow"
         Title="{Binding WindowTitle}" Height="500" Width="700">
 	<Window.InputBindings>
 		<KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding OpenFileCommand}"/>
@@ -19,6 +20,7 @@
 		<local:NameIDConverter x:Key="NameIDConverter"/>
 		<local:ItemEquipSlotConverter x:Key="ItemEquipSlotConverter"/>
 		<local:ItemUnitEquippedIconIdConverter x:Key="ItemUnitEquippedIconIdConverter"/>
+		<local:CharIdNameMultiConverter x:Key="CharIdNameMultiConverter"/>
 	</Window.Resources>
 	<Window.DataContext>
 		<local:ViewModel/>
@@ -88,7 +90,7 @@
 						<ListBox Name="ListBoxCharacter" ItemsSource="{Binding Characters}">
 							<ListBox.ItemTemplate>
 								<DataTemplate>
-									<Label Content="{Binding Name, Converter={StaticResource NameIDConverter}}"/>
+									<Label Content="{Binding Name}"/>
 								</DataTemplate>
 							</ListBox.ItemTemplate>
 						</ListBox>
@@ -248,7 +250,14 @@
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<Label Content="Equipped By"/>
-									<Label Content="{Binding UnitEquippedIconId, Converter={StaticResource ItemUnitEquippedIconIdConverter}}" Width="50"/>
+									<Label Width="80">
+										<Label.Content>
+											<MultiBinding Converter="{StaticResource CharIdNameMultiConverter}">
+												<Binding Path="UnitEquippedIconId" />
+												<Binding Path="DataContext.CharactersById" ElementName="AppMainWindow"/>
+											</MultiBinding>
+										</Label.Content>
+									</Label>
 									<Label Content="Last Slot"/>
 									<Label Content="{Binding EquipSlotIndex, Converter={StaticResource ItemEquipSlotConverter}}" Width="50"/>
 									<Button Content=" ... "

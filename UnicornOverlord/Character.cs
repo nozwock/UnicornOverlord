@@ -37,9 +37,19 @@ namespace UnicornOverlord
 			}
 		}
 
-		public uint Name
+		public uint NameId
 		{
 			get => SaveData.Instance.ReadNumber(mAddress + 52, 4);
+		}
+
+		private string? _name;
+		public string Name
+		{
+			get
+			{
+				_name ??= Info.Instance().Search(Info.Instance().Name, NameId)?.Name ?? NameId.ToString();
+				return _name;
+			}
 		}
 
 		public uint Exp

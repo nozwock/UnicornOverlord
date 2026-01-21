@@ -58,6 +58,7 @@ namespace UnicornOverlord
 
 		public Basic Basic { get; set; } = new Basic();
 		public ObservableCollection<Character> Characters { get; set; } = new ObservableCollection<Character>();
+		public Dictionary<uint, Character> CharactersById { get; set; } = [];
 		public ObservableCollection<Item> Items { get; set; } = new ObservableCollection<Item>();
 		public ObservableCollection<Item> Equipments { get; set; } = new ObservableCollection<Item>();
 		public ObservableCollection<Unit> Units { get; set; } = new ObservableCollection<Unit>();
@@ -131,6 +132,7 @@ namespace UnicornOverlord
 
 		private void Initialize()
 		{
+			CharactersById.Clear();
 			Characters.Clear();
 			Items.Clear();
 			Equipments.Clear();
@@ -143,6 +145,7 @@ namespace UnicornOverlord
 				var ch = new Character(Util.calcCharacterAddress(i));
 				if (ch.ID == 0xFFFFFFFF) break;
 
+				CharactersById.Add(ch.ID, ch);
 				Characters.Add(ch);
 			}
 
@@ -174,10 +177,10 @@ namespace UnicornOverlord
 		{
 			static Dictionary<uint, ObservableCollection<Bond>> BondsMapping(IList<Character> characters)
 			{
-				var charIdNameMap = new Dictionary<uint, uint>();
+				var charIdNameMap = new Dictionary<uint, uint>(characters.Count);
 				foreach (var ch in characters)
 				{
-					charIdNameMap.Add(ch.ID, ch.Name);
+					charIdNameMap.Add(ch.ID, ch.NameId);
 				}
 
 				var bondsMap = new Dictionary<uint, ObservableCollection<Bond>>();
@@ -370,8 +373,11 @@ namespace UnicornOverlord
 			SaveData.Instance.WriteValue(address, buffer);
 
 			// swap
+			var ch = new Character(address);
+			CharactersById.Remove(Characters.ElementAt(index).ID);
 			Characters.RemoveAt(index);
-			Characters.Insert(index, new Character(address));
+			Characters.Insert(index, ch);
+			CharactersById.Add(ch.ID, ch);
 		}
 
 		private void InsertCharacter(object? parameter)
@@ -407,6 +413,7 @@ namespace UnicornOverlord
 				var ch = new Character(Util.calcCharacterAddress((uint)Characters.Count));
 				if (ch.ID == 0xFFFFFFFF) continue;
 				Characters.Add(ch);
+				CharactersById.Add(ch.ID, ch);
 
 				SetCharacterBonds(Characters);
 			}

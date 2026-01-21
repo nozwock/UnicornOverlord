@@ -83,4 +83,23 @@ namespace UnicornOverlord
 			throw new NotImplementedException();
 		}
 	}
+
+    internal class CharIdNameMultiConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+		{
+			var char_id = (uint)values[0];
+			if (char_id == uint.MaxValue || char_id == 0)
+				return "N/A";
+			var charsById = (Dictionary<uint, Character>)values[1];
+			if (charsById.TryGetValue(char_id, out var ch))
+				return ch.Name;
+			return char_id.ToString();
+		}
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
