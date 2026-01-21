@@ -175,14 +175,8 @@ namespace UnicornOverlord
 
 		static void SetCharacterBonds(IList<Character> characters)
 		{
-			static Dictionary<uint, ObservableCollection<Bond>> BondsMapping(IList<Character> characters)
+			static Dictionary<uint, ObservableCollection<Bond>> BondsMapping()
 			{
-				var charIdNameMap = new Dictionary<uint, uint>(characters.Count);
-				foreach (var ch in characters)
-				{
-					charIdNameMap.Add(ch.ID, ch.NameId);
-				}
-
 				var bondsMap = new Dictionary<uint, ObservableCollection<Bond>>();
 				for (uint char_idx = 0; char_idx < 164; char_idx++)
 				{
@@ -198,14 +192,14 @@ namespace UnicornOverlord
 						char_id = SaveData.Instance.ReadNumber(bondAddr, 4);
 						if (char_id == 0xFFFFFFFF) break;
 
-						bonds.Add(new Bond(bondAddr, charIdNameMap.GetValueOrDefault(char_id)));
+						bonds.Add(new Bond(bondAddr));
 					}
 				}
 
 				return bondsMap;
 			}
 
-			var bondsMap = BondsMapping(characters);
+			var bondsMap = BondsMapping();
 			foreach (var ch in characters)
 			{
 				if (bondsMap.TryGetValue(ch.ID, out var bonds))

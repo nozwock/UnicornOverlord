@@ -178,7 +178,14 @@
 													<ColumnDefinition/>
 													<ColumnDefinition/>
 												</Grid.ColumnDefinitions>
-												<Label Grid.Column="0" Content="{Binding Name}"/>
+												<Label Grid.Column="0">
+													<Label.Content>
+														<MultiBinding Converter="{StaticResource CharIdNameMultiConverter}">
+															<Binding Path="ID"/>
+															<Binding Path="DataContext.CharactersById" ElementName="AppMainWindow"/>
+														</MultiBinding>
+													</Label.Content>
+												</Label>
 												<StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
 													<Label Content="Value"/>
 													<TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Width="50"/>
