@@ -18,6 +18,8 @@ namespace UnicornOverlord
 		private readonly string backupDir = Path.Combine(Directory.GetCurrentDirectory(), "backup");
 		private bool backupDoneOncePerOpen = false;
 		private readonly Dictionary<string, string> backupHashes = [];
+		private readonly byte[] editedSaveMarker = Encoding.ASCII.GetBytes("SAVEEDITED");
+		private bool IsSaveDataEdited => mBuffer.AsSpan()[^editedSaveMarker.Length..].SequenceEqual(editedSaveMarker);
 
 		public static SaveData Instance => mThis;
 		public string FilePath
@@ -62,6 +64,10 @@ namespace UnicornOverlord
 			if (String.IsNullOrEmpty(FilePath) || mBuffer == null) return false;
 
 			BackupOpenedSave(); // FilePath
+
+			if (!IsSaveDataEdited)
+				// Game doesn't seem to mind
+				mBuffer = [.. mBuffer, .. editedSaveMarker];
 
 			if (filepath != null)
 				FilePath = filepath;
@@ -265,7 +271,7 @@ namespace UnicornOverlord
 				backupHashes.Remove(k);
 
 			var hash = Util.CalcMD5(FilePath);
-			if (backupHashes.Values.Any(v => v == hash))
+			if (backupHashes.Values.Any(v => v == hash) || IsSaveDataEdited)
 			{
 					backupDoneOncePerOpen = true;
 					return; // Already backed up
