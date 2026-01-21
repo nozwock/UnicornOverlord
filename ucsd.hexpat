@@ -84,6 +84,7 @@ struct Rapport {
 
 struct Unit {
     u8 capacity;
+    padding[1669];
     bool enabled;
 } [[static, fixed_size(1720)]];
 
