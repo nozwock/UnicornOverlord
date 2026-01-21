@@ -1,7 +1,7 @@
 # File Format is TSV(Tab Separated Value)			
 # If you want to add more languages, add elements separated by tabs.			
 # ID	Name(en)	Name(jp)	Name(cn)
-3	Medals	勲章	勋章
+3	Honors	勲章	勋章
 4	Coliseum Coin	コロシアムコイン	斗技硬币
 5	Divine Shard	天のかけら	天之碎片
 6	Hallowed Corne Ash	コルヌの聖灰	克尔努的圣灰
@@ -684,7 +684,7 @@
 801	Sage's Hood	セイジフード	贤者兜帽
 802	Vitality Talisman	命のタリスマン	生命护符
 803	Lifeblood Talisman	生命のタリスマン	生机护符
-804	Ervã©Lda's Talisman	神樹のタリスマン	神树护符
+804	Ervelda's Talisman	神樹のタリスマン	神树护符
 805	Dove Plume	白鳥の羽飾り	白天鹅羽饰
 806	Raven Plume	黒鳥の羽飾り	黑天鹅羽饰
 807	Angel Plume	天使の羽飾り	天使羽饰
