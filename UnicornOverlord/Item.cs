@@ -73,10 +73,10 @@ namespace UnicornOverlord
 		}
 
 		/// <summary>
-		/// Some portrait icon id for the unit that the item is equipped by. <br/>
-		/// Value is `uint.MaxValue` if the item is not equipped by any unit.
+		/// Id of the character that the item is equipped by. <br/>
+		/// Value is `uint.MaxValue` if the item is not equipped by any character.
 		/// </summary>
-		public uint UnitEquippedIconId
+		public uint EquippedCharId
 		{
 			get => SaveData.Instance.ReadNumber(mAddress + 12, 4);
 			set

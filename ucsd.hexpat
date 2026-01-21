@@ -27,8 +27,8 @@ struct InventoryItem {
     u32 id;
     u32 index;
     u24 count;
-    u8 equip_slot_index;
-    u32 equipped_icon_id; // Icon ID of who has it equipped
+    u8 equip_slot_index; // Contains the last slot the item was/is in, FF if never equipped
+    u32 equipped_char_id; // Character ID of who has the item equipped, u32_max if not equipped
     u32 status; // Arbitrary item status
 } [[static, fixed_size(20)]];
 

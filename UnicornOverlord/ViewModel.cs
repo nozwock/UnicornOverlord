@@ -313,7 +313,7 @@ namespace UnicornOverlord
 			// Reset, just in case they aren't already
 			item.Count = 0; // Set to 1 in AppendItem
 			item.EquipSlotIndex = byte.MaxValue;
-			item.UnitEquippedIconId = uint.MaxValue;
+			item.EquippedCharId = uint.MaxValue;
 
 			// 2 (0b10) seems to be for unviewed/new items
 			item.Status = 2;

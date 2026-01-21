@@ -257,7 +257,7 @@
 									<Label Width="80">
 										<Label.Content>
 											<MultiBinding Converter="{StaticResource CharIdNameMultiConverter}">
-												<Binding Path="UnitEquippedIconId" />
+												<Binding Path="EquippedCharId" />
 												<Binding Path="DataContext.CharactersById" ElementName="AppMainWindow"/>
 											</MultiBinding>
 										</Label.Content>
