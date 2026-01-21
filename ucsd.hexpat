@@ -23,13 +23,21 @@ struct State {
     u16 zenoira_difficulty @ 0x4DA39E; // value is 0x4040 if set
 } [[static, inline]];
 
+bitfield InventoryItemStatus {
+    _unknown1: 1;
+    bool unseen: 1;
+    bool seen: 1;
+    padding: 2;
+    bool favorite: 1;
+} [[fixed_size(4)]];
+
 struct InventoryItem {
     u32 id;
     u32 index;
     u24 count;
     u8 equip_slot_index; // Contains the last slot the item was/is in, FF if never equipped
     u32 equipped_char_id; // Character ID of who has the item equipped, u32_max if not equipped
-    u32 status; // Arbitrary item status
+    InventoryItemStatus status;
 } [[static, fixed_size(20)]];
 
 struct Character {
