@@ -246,12 +246,6 @@ namespace UnicornOverlord
 			ChoiceItem(ChoiceWindow.eType.eEquipment, item);
 			// NOTE: Leave Status as is when replacing, it's not some item-type
 			// identifier as presumed here and in some other places
-			//
-			// var info = Info.Search(Info.Kind, item.ID);
-			// if (info != null)
-			// {
-			// 	item.Status = uint.Parse(info.Name);
-			// }
 		}
 
 		private void ChoiceItem(ChoiceWindow.eType type, Item item)
@@ -260,8 +254,12 @@ namespace UnicornOverlord
 			dlg.Type = type;
 			dlg.ID = item.ID;
 			dlg.ShowDialog();
+
+			if (item.ID == dlg.ID)
+				return;
 			item.ID = dlg.ID;
-			// item.Status = 2;
+			item.StatusSeen = false;
+			item.StatusUnseen = true;
 		}
 
 		private void ChoiceClass(object? parameter)
@@ -273,6 +271,9 @@ namespace UnicornOverlord
 			dlg.Type = ChoiceWindow.eType.eClass;
 			dlg.ID = ch.Class;
 			dlg.ShowDialog();
+
+			if (ch.Class == dlg.ID)
+				return;
 			ch.Class = dlg.ID;
 		}
 
