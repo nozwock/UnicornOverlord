@@ -73,8 +73,10 @@ namespace UnicornOverlord
 		}
 
 		/// <summary>
-		/// Id of the character that the item is equipped by. <br/>
-		/// Value is `uint.MaxValue` if the item is not equipped by any character.
+		/// Character ID of who has the item equipped, `uint.MaxValue` if not
+		/// equipped. <br/>
+		/// It's only used to know which character's icon to show on the item.
+		/// Refer to pattern file for details.
 		/// </summary>
 		public uint EquippedCharId
 		{
