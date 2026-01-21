@@ -33,7 +33,9 @@ namespace UnicornOverlord
 		{
 			get
 			{
-				_name ??= Info.Item.TryGetValue(ID, out var info) ? info.Name : ID.ToString();
+				_name ??= Info.Item.TryGetValue(ID, out var info)
+					? info.Name + (StatusUpgraded ? "+" : "")
+					: ID.ToString();
 				return _name;
 			}
 		}
@@ -122,6 +124,8 @@ namespace UnicornOverlord
 			{
 				SaveData.Instance.WriteBit(mAddress + 16, 4, value);
 				OnPropertyChanged();
+				_name = null;
+				OnPropertyChanged(nameof(Name));
 			}
 		}
 		public bool StatusFavorite
