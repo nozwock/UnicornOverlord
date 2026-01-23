@@ -19,7 +19,7 @@
 16	Aubin		
 17	Travis		
 18	Mercenary		
-19	Beregaria		
+19	Berengaria		
 20	Bruno		
 21	Ochlys		
 22	Heavensing Knight		
@@ -100,7 +100,7 @@
 97	Clara		
 98	Leonie		
 99	Fabian		
-100	Beregaria		
+100	Berengaria		
 101	Drakenhold Soldier		
 102	Zenoiran Solder		
 103	Knight Of The Rose		
