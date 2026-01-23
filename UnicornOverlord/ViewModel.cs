@@ -241,7 +241,7 @@ namespace UnicornOverlord
 		bool ShowChooseItemDialog(out uint id)
 		{
 			if (ChoiceDialog.Show(
-				Info.Item.Values.Where(it => !Info.Kind.ContainsKey(it.Value)),
+				Info.Item.Values.Where(it => !Info.EquipmentKind.ContainsKey(it.Value)),
 				it => it.Name,
 				out var selected))
 			{
@@ -255,7 +255,7 @@ namespace UnicornOverlord
 		bool ShowChooseEquipmentDialog(out uint id)
 		{
 			if (ChoiceDialog.Show(
-				Info.Item.Values.Where(it => Info.Kind.ContainsKey(it.Value)),
+				Info.Item.Values.Where(it => Info.EquipmentKind.ContainsKey(it.Value)),
 				it => it.Name,
 				out var selected))
 			{

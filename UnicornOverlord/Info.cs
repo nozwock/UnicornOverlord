@@ -13,7 +13,7 @@ namespace UnicornOverlord
 		public static ImmutableSortedDictionary<uint, NameValueInfo> Item { get; private set; }
 		public static ImmutableSortedDictionary<uint, NameValueInfo> Class { get; private set; }
 		public static ImmutableSortedDictionary<uint, NameValueInfo> Name { get; private set; }
-		public static ImmutableSortedDictionary<uint, uint> Kind { get; private set; }
+		public static ImmutableSortedDictionary<uint, uint> EquipmentKind { get; private set; }
 
 		private Info() { }
 
@@ -27,7 +27,7 @@ namespace UnicornOverlord
 				?? ImmutableSortedDictionary<uint, NameValueInfo>.Empty;
 			Name = ReadSortedNameValueInfo(Path.Combine(infoDir, "name.txt"))
 				?? ImmutableSortedDictionary<uint, NameValueInfo>.Empty;
-			Kind = ReadSortedKV(Path.Combine(infoDir, "kind.txt"), ParseUInt32, v =>  ParseUInt32(v[1]))
+			EquipmentKind = ReadSortedKV(Path.Combine(infoDir, "kind.txt"), ParseUInt32, v =>  ParseUInt32(v[1]))
 				?? ImmutableSortedDictionary<uint, uint>.Empty;
 		}
 
