@@ -458,6 +458,7 @@ namespace UnicornOverlord
 			foreach (var item in Items)
 			{
 				if (item.ID <= 4) continue;
+				if (item.Count >= 99) continue;
 				item.Count = 99;
 			}
 		}
