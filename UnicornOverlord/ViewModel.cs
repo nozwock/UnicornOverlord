@@ -60,6 +60,7 @@ namespace UnicornOverlord
 		public ICommand ChangeItemCountMaxCommand { get; set; }
 		public ICommand ChangeCharacterBondMaxCommand { get; set; }
 		public ICommand ChangeCharacterBondMaxAllCommand { get; set; }
+		public ICommand ChangeMaidenCommand { get; set; }
 
 		public Basic Basic { get; set; } = new Basic();
 		public ObservableCollection<Character> Characters { get; set; } = new ObservableCollection<Character>();
@@ -108,6 +109,7 @@ namespace UnicornOverlord
 			ChangeItemCountMaxCommand = new ActionCommand(ChangeItemCountMax);
 			ChangeCharacterBondMaxCommand = new ActionCommand(ChangeCharacterBondMax);
 			ChangeCharacterBondMaxAllCommand = new ActionCommand(ChangeCharacterBondMaxAll);
+			ChangeMaidenCommand = new ActionCommand(ChangeMaiden);
 
 			ItemsView = CollectionViewSource.GetDefaultView(Items);
 			ItemsView.Filter = ItemFilter(() => ItemFilterText);
@@ -545,6 +547,19 @@ namespace UnicornOverlord
 					}
 				}
 			}
+		}
+
+		void ChangeMaiden(object? parameter)
+		{
+			if (ChoiceDialog.Show(
+				Info.RapportCharacter.Prepend(new(0, 2)),
+				it => Info.Name.TryGetValue(it.Key, out var info)
+					? info.Name
+					: (it.Key == 0 ? "(None)" : it.Key.ToString()),
+				out var selected,
+				[("Hide Males", true, it => it.Value != 1),
+				("Hide Females", false, it => it.Value != 0)]))
+				Basic.MaidenNameId = selected.Key;
 		}
 	}
 }

@@ -8,6 +8,21 @@ using System.Windows.Data;
 
 namespace UnicornOverlord
 {
+	class NameIDConverter : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			uint id = (uint)value;
+			if (Info.Name.TryGetValue(id, out var info)) return info.Name;
+			return id == 0 ? "(None)" : id.ToString();
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			throw new NotImplementedException();
+		}
+	}
+
 	class ClassIDConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

@@ -15,6 +15,7 @@
 		<KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding SaveAsFileCommand}"/>
 	</Window.InputBindings>
 	<Window.Resources>
+		<local:NameIDConverter x:Key="NameIDConverter"/>
 		<local:ClassIDConverter x:Key="ClassIDConverter"/>
 		<local:ItemEquipSlotConverter x:Key="ItemEquipSlotConverter"/>
 		<local:CharIdNameMultiConverter x:Key="CharIdNameMultiConverter"/>
@@ -44,25 +45,35 @@
 		</ToolBar>
 		<TabControl>
 			<TabItem Header="Basic">
-				<Grid>
+				<Grid Margin="4">
+					<Grid.Resources>
+						<Style TargetType="{x:Type Label}">
+							<Setter Property="Margin" Value="0,0,24,0" />
+						</Style>
+					</Grid.Resources>
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition/>
-						<ColumnDefinition/>
-						<ColumnDefinition Width="5"/>
-						<ColumnDefinition/>
-						<ColumnDefinition/>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="*" MaxWidth="120"/>
 					</Grid.ColumnDefinitions>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto"/>
 						<RowDefinition Height="Auto"/>
 						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
 					</Grid.RowDefinitions>
-					<Label Content="Money"/>
-					<TextBox Grid.Column="1" Text="{Binding Basic.Money, UpdateSourceTrigger=PropertyChanged}"/>
+					<Label Grid.Row="0" Content="Money"/>
+					<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Basic.Money, UpdateSourceTrigger=PropertyChanged}"/>
 					<Label Grid.Row="1" Content="Fame"/>
 					<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Basic.Fame, UpdateSourceTrigger=PropertyChanged}"/>
-					<Label Grid.Row="2" Content="ZENOIRA"/>
-					<CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding Basic.ZENOIRA}" VerticalAlignment="Center"/>
+					<Label Grid.Row="2" Content="Maiden/Partner"/>
+					<StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+						<Border BorderBrush="Gray" BorderThickness="1">
+							<Label Content="{Binding Basic.MaidenNameId, Converter={StaticResource NameIDConverter}}"/>
+						</Border>
+						<Button Content=" ... " Command="{Binding ChangeMaidenCommand}"/>
+					</StackPanel>
+					<Label Grid.Row="3" Content="ZENOIRA"/>
+					<CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding Basic.ZENOIRA}" VerticalAlignment="Center"/>
 				</Grid>
 			</TabItem>
 			<TabItem Header="Character">

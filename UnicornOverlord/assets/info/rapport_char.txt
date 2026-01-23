@@ -1,0 +1,66 @@
+# File Format is TSV(Tab Separated Value)
+# Characters with rapports and those that can be given the maiden ring
+# NameId	Gender	Name(Context only, treat as comment)
+# Male = 1
+# Female = 0
+4	0	Scarlett
+6	0	Chloe
+38	0	Fran
+75	0	Selvie
+23	0	Sharon
+21	0	Ochlys
+29	0	Yahna
+41	0	Berenice
+43	0	Nina
+37	0	Miriam
+36	0	Kitra
+60	0	Mellisandre
+63	0	Monica
+72	0	Tatiana
+76	0	Virginia
+77	0	Leah
+78	0	Primm
+100	0	Berengaria
+109	0	Liza
+84	0	Hilda
+115	0	Rosalinde
+87	0	Amelia
+129	0	Celeste
+133	0	Eltolinde
+144	0	Ridiel
+143	0	Railanor
+142	0	Galadmir
+145	0	Yunifi
+153	0	Ramona
+148	0	Dinah
+163	0	Raenys
+164	0	Umerus
+5	1	Lex
+7	1	Josef
+12	1	Hodrick
+13	1	Clive
+15	1	Travis
+16	1	Aubin
+27	1	Mordon
+52	1	Rolf
+20	1	Bruno
+32	1	Adel
+73	1	Auch
+61	1	Colm
+79	1	Aramis
+82	1	Magellan
+108	1	Gloucester
+83	1	Jeremy
+172	1	Renault
+85	1	Gilbert
+116	1	Lhinalagos
+130	1	Gammel
+131	1	Mandrin
+121	1	Ithillion
+146	1	Morad
+46	1	Bryce
+157	1	Bertrand
+156	1	Govil
+169	1	Jerome
+171	1	Fodoquia
+168	1	Santio

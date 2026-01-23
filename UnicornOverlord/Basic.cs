@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UnicornOverlord
 {
-	internal class Basic
+	internal class Basic : ObservableObject
 	{
 		public uint Money
 		{
@@ -18,6 +18,16 @@ namespace UnicornOverlord
 		{
 			get => SaveData.Instance.ReadNumber(0x24, 4);
 			set => SaveData.Instance.WriteNumber(0x24, 4, value);
+		}
+
+		public uint MaidenNameId
+		{
+			get => SaveData.Instance.ReadNumber(0x44, 4);
+			set
+			{
+				SaveData.Instance.WriteNumber(0x44, 4, value);
+				OnPropertyChanged();
+			}
 		}
 
 		public bool ZENOIRA
