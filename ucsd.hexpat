@@ -104,9 +104,14 @@ struct Unit {
     bool enabled;
 } [[static, fixed_size(1720)]];
 
+// Number of items bought, filling the whole type with 0 seems to reset the stock.
+// Doesn't include Coliseum shop purchases.
+struct ShopPurchases { } [[static, fixed_size(0x001FB880 - 0x001EA340), sealed]];
 
 State state @ 0x20;
 InventoryItem inventory[3800] @ 0xA0;
 Character characters[500] @ 0x2AF40;
 Rapport rapports[164] @ 0x1B5830;
 Unit units[10] @ 0x10D89A;
+ShopPurchases purchases @ 0x001EA340;
+
