@@ -41,5 +41,27 @@ namespace UnicornOverlord
 			using var stream = File.OpenRead(filepath);
 			return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLowerInvariant();
 		}
+
+		public static T? BinarySearch<T>(IList<T> list, T key)
+			where T : IComparable<T>
+		{
+			return BinarySearch(list, key, it => it);
+		}
+
+		public static T? BinarySearch<T, K>(IList<T> list, K key, Func<T, K> keyMap)
+			where K : IComparable<K>
+		{
+			int min = 0;
+			int max = list.Count;
+			for (; min < max;)
+			{
+				int mid = min + (max - min) / 2;
+				var cmp = keyMap(list[mid]).CompareTo(key);
+				if (cmp == 0) return list[mid];
+				else if (cmp > 0) max = mid;
+				else min = mid + 1;
+			}
+			return default;
+		}
 	}
 }
