@@ -1,0 +1,79 @@
+<Window x:Class="UnicornOverlord.ChoiceDialog"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:local="clr-namespace:UnicornOverlord"
+		Title="Choose Item"
+		Height="400"
+		Width="300"
+		WindowStartupLocation="CenterOwner">
+
+	<DockPanel Margin="8">
+		<TabControl DockPanel.Dock="Top">
+			<!-- Search bar -->
+			<TabItem Header="Search">
+				<TextBox Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}"
+					VerticalContentAlignment="Center"/>
+			</TabItem>
+
+			<!-- Checkbox filters -->
+			<TabItem Header="Filters">
+				<TabItem.Style>
+					<Style TargetType="TabItem">
+						<Setter Property="Visibility" Value="Visible"/>
+						<Style.Triggers>
+							<DataTrigger Binding="{Binding Filters.Count}" Value="0">
+								<Setter Property="Visibility" Value="Collapsed"/>
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</TabItem.Style>
+
+				<ScrollViewer
+					HorizontalScrollBarVisibility="Auto"
+					VerticalScrollBarVisibility="Disabled"
+					Padding="0,4,0,4">
+					<StackPanel>
+						<ItemsControl ItemsSource="{Binding Filters}">
+							<ItemsControl.ItemsPanel>
+								<ItemsPanelTemplate>
+									<StackPanel Orientation="Horizontal"/>
+								</ItemsPanelTemplate>
+							</ItemsControl.ItemsPanel>
+
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<CheckBox Content="{Binding Name}"
+											IsChecked="{Binding IsChecked, Mode=TwoWay}"
+											Margin="0,0,8,0"/>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+					</StackPanel>
+				</ScrollViewer>
+			</TabItem>
+		</TabControl>
+
+		<!-- Confirmation -->
+		<Grid DockPanel.Dock="Bottom" Margin="0,8,0,0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+
+			<Button Content="OK"
+					IsEnabled="{Binding CanConfirm}"
+					IsDefault="True"
+					Click="Ok_Click"/>
+
+			<Button Content="Cancel"
+					Grid.Column="1"
+					IsCancel="True"/>
+		</Grid>
+
+		<!-- List -->
+		<ListBox ItemsSource="{Binding ItemsView}"
+				 SelectedItem="{Binding SelectedItem}"
+				 DisplayMemberPath="Display"
+				 />
+	</DockPanel>
+</Window>

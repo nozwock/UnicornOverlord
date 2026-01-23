@@ -238,56 +238,89 @@ namespace UnicornOverlord
 			SaveData.Instance.SaveAs(dlg.FileName);
 		}
 
+		bool ShowChooseItemDialog(out uint id)
+		{
+			if (ChoiceDialog.Show(
+				Info.Item.Values.Where(it => !Info.Kind.ContainsKey(it.Value)),
+				it => it.Name,
+				out var selected))
+			{
+				id = selected!.Value;
+				return true;
+			}
+			id = default;
+			return false;
+		}
+
+		bool ShowChooseEquipmentDialog(out uint id)
+		{
+			if (ChoiceDialog.Show(
+				Info.Item.Values.Where(it => Info.Kind.ContainsKey(it.Value)),
+				it => it.Name,
+				out var selected))
+			{
+				id = selected!.Value;
+				return true;
+			}
+			id = default;
+			return false;
+		}
+
+		bool ShowChooseCharClassDialog(out uint id)
+		{
+			if (ChoiceDialog.Show(
+				Info.Class,
+				it => it.Value.Name,
+				out var selected))
+			{
+				id = selected.Key;
+				return true;
+			}
+			id = default;
+			return false;
+		}
+
 		private void ChoiceItem(object? parameter)
 		{
-			Item? item = parameter as Item;
-			if(item == null) return;
+			if (parameter is not Item item) return;
 
-			ChoiceItem(ChoiceWindow.eType.eItem, item);
+			if (ShowChooseItemDialog(out var id))
+				ReplaceItem(item, id);
 		}
 
 		private void ChoiceEquipment(object? parameter)
 		{
-			Item? item = parameter as Item;
-			if (item == null) return;
+			if (parameter is not Item item) return;
 
-			ChoiceItem(ChoiceWindow.eType.eEquipment, item);
-			// NOTE: Leave Status as is when replacing, it's not some item-type
-			// identifier as presumed here and in some other places
+			if (ShowChooseEquipmentDialog(out var id))
+				ReplaceItem(item, id);
 		}
 
-		private void ChoiceItem(ChoiceWindow.eType type, Item item)
+		private void ReplaceItem(Item item, uint id)
 		{
-			var dlg = new ChoiceWindow();
-			dlg.Type = type;
-			dlg.ID = item.ID;
-			dlg.ShowDialog();
-
-			if (item.ID == dlg.ID)
-				return;
-			item.ID = dlg.ID;
+			if (item.ID == id) return;
+			item.ID = id;
 			item.StatusSeen = false;
 			item.StatusUnseen = true;
 		}
 
 		private void ChoiceClass(object? parameter)
 		{
-			Character? ch = parameter as Character;
-			if (ch == null) return;
+			if (parameter is not Character ch) return;
 
-			var dlg = new ChoiceWindow();
-			dlg.Type = ChoiceWindow.eType.eClass;
-			dlg.ID = ch.Class;
-			dlg.ShowDialog();
-
-			if (ch.Class == dlg.ID)
+			if (!ShowChooseCharClassDialog(out var id))
 				return;
-			ch.Class = dlg.ID;
+
+			if (ch.Class == id) return;
+			ch.Class = id;
 		}
 
 		private void AppendItem(object? parameter)
 		{
-			var item = AppendItem(ChoiceWindow.eType.eItem);
+			if (!ShowChooseItemDialog(out var id))
+				return;
+
+			var item = AppendItem(id);
 			if (item == null) return;
 
 			// TODO: Prevent user from adding items that are already present
@@ -298,24 +331,23 @@ namespace UnicornOverlord
 
 		private void AppendEquipment(object? parameter)
 		{
-			var item = AppendItem(ChoiceWindow.eType.eEquipment);
+			if (!ShowChooseEquipmentDialog(out var id))
+				return;
+
+			var item = AppendItem(id);
 			if (item == null) return;
 
 			Equipments.Add(item);
 		}
 
-		private Item? AppendItem(ChoiceWindow.eType type)
+		private Item? AppendItem(uint id)
 		{
 			uint index = (uint)(Items.Count + Equipments.Count);
 			if (index >= 3800) return null;
-
-			var dlg = new ChoiceWindow();
-			dlg.Type = type;
-			dlg.ShowDialog();
-			if (dlg.ID == 0) return null;
+			if (id == 0) return null;
 
 			var item = new Item(0xA0 + index * 20);
-			item.ID = dlg.ID;
+			item.ID = id;
 			item.Index = index + 1;
 
 			// Reset, just in case they aren't already
