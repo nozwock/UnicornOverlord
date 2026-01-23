@@ -17,6 +17,7 @@ namespace UnicornOverlord
 {
 	internal class ViewModel : ObservableObject
 	{
+		public static ViewModel? Instance { get; private set; }
 		const string baseWindowTitle = "UnicornOverlord Save Editor (Nintendo Switch)";
 		public string WindowTitle
 		{
@@ -39,6 +40,11 @@ namespace UnicornOverlord
 				OnPropertyChanged(nameof(WindowTitle));
 			}
 		} = "";
+
+		public bool BackupOriginalFile {
+			get;
+			set => SetProperty(ref field, value);
+		} = true;
 
 		public ICommand OpenFileCommand { get; set; }
 		public ICommand SaveFileCommand { get; set; }
@@ -86,6 +92,8 @@ namespace UnicornOverlord
 
 		public ViewModel()
 		{
+			Instance = this;
+
 			OpenFileCommand = new ActionCommand(OpenFile);
 			SaveFileCommand = new ActionCommand(SaveFile);
 			SaveAsFileCommand = new ActionCommand(SaveAsFile);

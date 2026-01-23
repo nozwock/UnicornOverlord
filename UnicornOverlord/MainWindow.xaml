@@ -37,6 +37,10 @@
 				<ComboBoxItem Content="jp"/>
 				<ComboBoxItem Content="cn"/>
 			</ComboBox>
+			<Separator Margin="4,0,4,0"/>
+			<Grid>
+				<CheckBox Content="Backup Original" IsChecked="{Binding BackupOriginalFile, Mode=TwoWay}" VerticalAlignment="Center"/>
+			</Grid>
 		</ToolBar>
 		<TabControl>
 			<TabItem Header="Basic">

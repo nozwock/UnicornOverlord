@@ -261,7 +261,7 @@ namespace UnicornOverlord
 		/// </summary>
 		private void BackupOpenedSave()
 		{
-			if (backupDoneOncePerOpen)
+			if (ViewModel.Instance?.BackupOriginalFile == false || backupDoneOncePerOpen)
 				return;
 
 			var now = DateTime.Now;
