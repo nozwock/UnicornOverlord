@@ -10,7 +10,7 @@ namespace UnicornOverlord
 	{
 		public uint Value { get; private set; }
 		private List<String> mNames = new List<String>();
-		
+
 		public String Name
 		{
 			get
@@ -19,7 +19,7 @@ namespace UnicornOverlord
 				if (index >= mNames.Count) index = 0;
 
 				var value = mNames[index];
-				if(String.IsNullOrEmpty(value))
+				if (String.IsNullOrEmpty(value))
 				{
 					value = mNames[0];
 				}

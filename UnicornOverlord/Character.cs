@@ -13,7 +13,7 @@ namespace UnicornOverlord
 	{
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		public ObservableCollection<Bond>? Bonds {  get; set; }
+		public ObservableCollection<Bond>? Bonds { get; set; }
 
 		private readonly uint mAddress;
 

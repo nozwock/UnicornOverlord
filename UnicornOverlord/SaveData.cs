@@ -48,7 +48,7 @@ namespace UnicornOverlord
 
 			var buffer = System.IO.File.ReadAllBytes(filepath);
 			String header = mEncode.GetString(buffer, 4, 4);
-			if(header != "UCSD") return false;
+			if (header != "UCSD") return false;
 
 			mBuffer = buffer;
 			FilePath = filepath;
@@ -273,8 +273,8 @@ namespace UnicornOverlord
 			var hash = Util.CalcMD5(FilePath);
 			if (backupHashes.Values.Any(v => v == hash) || IsSaveDataEdited)
 			{
-					backupDoneOncePerOpen = true;
-					return; // Already backed up
+				backupDoneOncePerOpen = true;
+				return; // Already backed up
 			}
 
 			Directory.CreateDirectory(backupDir);

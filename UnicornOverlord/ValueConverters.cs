@@ -52,9 +52,9 @@ namespace UnicornOverlord
 		}
 	}
 
-    internal class CharIdNameMultiConverter : IMultiValueConverter
-    {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+	internal class CharIdNameMultiConverter : IMultiValueConverter
+	{
+		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
 		{
 			var char_id = (uint)values[0];
 			if (char_id == uint.MaxValue || char_id == 0)
@@ -65,9 +65,9 @@ namespace UnicornOverlord
 			return char_id.ToString();
 		}
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

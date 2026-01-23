@@ -41,7 +41,8 @@ namespace UnicornOverlord
 			}
 		} = "";
 
-		public bool BackupOriginalFile {
+		public bool BackupOriginalFile
+		{
 			get;
 			set => SetProperty(ref field, value);
 		} = true;
@@ -131,7 +132,8 @@ namespace UnicornOverlord
 				};
 			}
 
-			SaveData.Instance.PropertyChanged += (sender, e) => {
+			SaveData.Instance.PropertyChanged += (sender, e) =>
+			{
 				if (e.PropertyName == nameof(SaveData.FilePath))
 					WindowTitlePrefix = Path.GetFileName(SaveData.Instance.FilePath);
 				else if (e.PropertyName == nameof(SaveData.IsDirty))
@@ -166,7 +168,7 @@ namespace UnicornOverlord
 				var item = new Item(0xA0 + i * 20);
 				if (item.Index == 0) break;
 
-				if(item.Count== 0)
+				if (item.Count == 0)
 					Equipments.Add(item);
 				else
 					Items.Add(item);
@@ -453,7 +455,7 @@ namespace UnicornOverlord
 
 		private void ChangeItemCountMax(object? parameter)
 		{
-			foreach(var item in Items)
+			foreach (var item in Items)
 			{
 				if (item.ID <= 4) continue;
 				item.Count = 99;
@@ -522,7 +524,7 @@ namespace UnicornOverlord
 				var current_id = SaveData.Instance.ReadNumber(baseAddress, 4);
 
 				// chack blank character
-				if(current_id == 0xFFFFFFFF)
+				if (current_id == 0xFFFFFFFF)
 				{
 					// insert new character
 					SaveData.Instance.WriteNumber(baseAddress, 4, id);
