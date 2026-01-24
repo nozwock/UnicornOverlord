@@ -1,33 +1,37 @@
-![DL Count](https://img.shields.io/github/downloads/turtle-insect/UnicornOverlord/total.svg)
+![download count](https://img.shields.io/github/downloads/turtle-insect/UnicornOverlord/total.svg)
 
 # UnicornOverlord
-Switch Unicorn Overlord SaveDate Editor
+Save data editor for [Unicorn Overlord]. Tested with the Switch build of the game only.
 
-# Portal
-https://unicorn-overlord.com/
+![screenshot](https://github.com/user-attachments/assets/849da9d5-92ae-42ff-ad64-828fea13ca6f)
 
-# ソフト
-■Switch  
-https://store-jp.nintendo.com/list/software/70010000058315.html
+## Requirements
+- [.NET Desktop Runtime 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 
-# 実行に必要
-* Windows マシン
-* [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)の導入
-* セーブデータの吸い出し
-* セーブデータの書き戻し
+# Build
+Either use the `dotnet` cli tool for building the project or your IDE if it has
+support.
 
-# Build環境
-* Windows 10(64bit)
-* [Visual Studio 2022](https://visualstudio.microsoft.com/)
+Run project:
+```
+dotnet run --project UnicornOverlord/UnicornOverlord.csproj
+```
 
-# Editor Step
-* SaveData Export
-* Open SavaData
-* Edit SavaData
-* Save SaveData
-* SaveData Import
+Build for distribution:
+```
+dotnet publish --no-self-contained -o ./build UnicornOverlord/UnicornOverlord.csproj
+```
+
+## Dependencies
+- DotNet SDK 10
+
+# Links
+- https://github.com/turtle-insect/UnicornOverlord
+- [GBAtemp thread on the save format](https://gbatemp.net/threads/unicorn-overlord-save-editing.650584/)
+- [Other related links](https://docs.google.com/spreadsheets/d/1UXe4nEloKlv14P4H4cOKeJc8R2P1fZW_HaLAuQG96BQ)
 
 # Special Thanks
-* [pauljames80](https://gbatemp.net/members/pj1980.378437/)
-* [GBAtemp](https://gbatemp.net/threads/unicorn-overlord-save-editing.650584/)
-* [DataSheet](https://docs.google.com/spreadsheets/d/1UXe4nEloKlv14P4H4cOKeJc8R2P1fZW_HaLAuQG96BQ)
+- [pauljames80](https://gbatemp.net/members/pj1980.378437/) - For initial look into the save format.
+
+
+[Unicorn Overlord]: https://unicorn-overlord.com/en/
